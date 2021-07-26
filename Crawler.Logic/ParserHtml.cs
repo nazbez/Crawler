@@ -6,21 +6,17 @@ namespace Crawler.Logic
 {
     public class ParserHtml
     {
-        private readonly string _url;
-        private readonly HtmlDocument _document;
-
-        public ParserHtml(string url, string document)
+        public virtual IEnumerable<string> ParseUrls(string adress, string doc)
         {
-            _url = url;
-            _document = new HtmlDocument();
-            _document.LoadHtml(document);
-        }
+            string url = adress;
 
-        public IEnumerable<string> ParseUrls()
-        {
+            HtmlDocument document = new HtmlDocument();
+
+            document.LoadHtml(doc);
+
             List<string> listOfUrls = new List<string> { };
 
-            var allUrls = _document.DocumentNode.SelectNodes("//a[@href]");
+            var allUrls = document.DocumentNode.SelectNodes("//a[@href]");
 
             if (allUrls == null)
             {
@@ -31,10 +27,10 @@ namespace Crawler.Logic
             {
                 string href = node.Attributes["href"].Value;
 
-                href = GetAbsoluteUrlString(_url, href);
+                href = GetAbsoluteUrlString(url, href);
 
-                if (href.Contains(_url) && !href.Contains("#"))
-                {
+                if (href.Contains(url) && !href.Contains("#"))
+                { 
                     listOfUrls.Add(href);
                 }
             }

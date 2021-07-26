@@ -7,8 +7,15 @@ namespace Crawler.Logic
     {
 		private Downloader downloader;
 		private ParserHtml parser;
+		private string url;
 
-		public IEnumerable<string> GetUrls(string url)
+		public HtmlCrawler(string url, ParserHtml parser, Downloader downloader)
+        {
+			this.url = url;
+			this.parser = parser;
+			this.downloader = downloader;
+        }
+		public IEnumerable<string> GetUrls()
 		{
 			List<string> result = new List<string> { };
 			List<string> queueOfUrls = new List<string> { url };
@@ -17,22 +24,16 @@ namespace Crawler.Logic
 			{
 				string currentUrl = queueOfUrls.First();
 
-				downloader = new Downloader(currentUrl);
-
-				string document = downloader.Download();
+				string document = downloader.Download(currentUrl);
 
 				if (string.IsNullOrEmpty(document))
                 {
 					queueOfUrls.RemoveAt(0);
 
-					result.Add(currentUrl);
-
 					continue;
 				}
 
-				parser = new ParserHtml(currentUrl, document);
-
-				var foundedUrls = parser.ParseUrls();
+				var foundedUrls = parser.ParseUrls(currentUrl, document);
 
 				queueOfUrls.AddRange(foundedUrls);
 

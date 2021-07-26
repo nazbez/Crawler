@@ -6,14 +6,14 @@ namespace Crawler.Logic
 {
     public class ParserSitemap
     { 
-        public IEnumerable<string> Parse(string url, string tag)
+        public virtual IEnumerable<string> Parse(string doc, string url, string tag)
         {
             XmlDocument document = new XmlDocument();
             List<string> result = new List<string> { };
 
             try
             {
-                document.Load(url);
+                document.LoadXml(doc);
             }
             catch (Exception)
             {
