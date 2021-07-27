@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using System.Net;
 using System;
+using System.Linq;
 
 namespace Crawler.Logic
 {
@@ -16,9 +17,9 @@ namespace Crawler.Logic
 
                 string download = Encoding.ASCII.GetString(data);
 
-                return download;
+                return string.Join("" , download.SkipWhile(x=> x != '<'));
             }
-            catch (Exception)
+            catch (WebException)
             {
                 return string.Empty;
             }

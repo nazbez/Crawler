@@ -32,21 +32,45 @@ namespace Crawler.Logic.Tests
         }
 
         [Fact]
-        public void GetUrls_ValidParams_ListWithUrls()
+        public void GetUrls_UrlDoesntContainOtherUrls_ListWithOneUrl()
         {
             // Arrange
             mockDownloader.Setup(x => x.Download(It.IsAny<string>())).Returns("Document");
-            mockParser.SetupSequence(x => x.ParseUrls(It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(new List<string> { "Url2" })
-                .Returns(new List<string>());
+            mockParser.Setup(x => x.ParseUrls(It.IsAny<string>(), It.IsAny<string>())).Returns(new List<string> { });
+                
 
             // Act
             crawler = new HtmlCrawler("Url1", mockParser.Object, mockDownloader.Object);
             var result = crawler.GetUrls();
 
             // Assert
-            mockParser.Verify(x => x.ParseUrls(It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(2));
-            Assert.Equal(new List<string> { "Url1", "Url2" }, result);
+            mockDownloader.Verify(x => x.Download(It.IsAny<string>()), Times.Once);
+            mockParser.Verify(x => x.ParseUrls(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            Assert.Equal(new List<string> { "Url1" }, result);
+        }
+
+        [Fact]
+        public void GetUrls_UrlContainsOtherUrls_ListOfUrls()
+        {
+            // Arrange
+            mockDownloader.SetupSequence(x => x.Download(It.IsAny<string>()))
+                .Returns("First document")
+                .Returns("Second document")
+                .Returns("Third document");
+            mockParser.SetupSequence(x => x.ParseUrls(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(new List<string> { "Url1", "Url2" })
+                .Returns(new List<string> { "Url3" })
+                .Returns(new List<string> { "Url1", "Url2", "Url3"});
+
+
+            // Act
+            crawler = new HtmlCrawler("Url1", mockParser.Object, mockDownloader.Object);
+            var result = crawler.GetUrls();
+
+            // Assert
+            mockDownloader.Verify(x => x.Download(It.IsAny<string>()), Times.Exactly(3));
+            mockParser.Verify(x => x.ParseUrls(It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(3));
+            Assert.Equal(new List<string> { "Url1", "Url2", "Url3" }, result);
         }
     }
 }

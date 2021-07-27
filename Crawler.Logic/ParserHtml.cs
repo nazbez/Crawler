@@ -29,6 +29,8 @@ namespace Crawler.Logic
 
                 href = GetAbsoluteUrlString(url, href);
 
+                href = ConvertToUnifiedForm(href);
+
                 if (href.Contains(url) && !href.Contains("#"))
                 { 
                     listOfUrls.Add(href);
@@ -44,10 +46,14 @@ namespace Crawler.Logic
             if (!uri.IsAbsoluteUri)
                 uri = new Uri(new Uri(baseUrl), uri);
 
-            // Check that the link does not end in /
-            return (url.ToString().EndsWith('/'))
-                ? uri.ToString().Substring(0, uri.ToString().Length - 1)
-                : uri.ToString();
+            return uri.ToString();
+        }
+
+        private string ConvertToUnifiedForm(string adress)
+        {
+            return (adress.EndsWith('/'))
+                ? adress.Substring(0, adress.Length - 1)
+                : adress;
         }
     }
 }

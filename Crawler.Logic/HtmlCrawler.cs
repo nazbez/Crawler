@@ -5,26 +5,26 @@ namespace Crawler.Logic
 {
     public class HtmlCrawler
     {
-		private Downloader downloader;
-		private ParserHtml parser;
+		private readonly Downloader _downloader;
+		private readonly ParserHtml _parser;
 		private string url;
 
 		public HtmlCrawler(string url, ParserHtml parser, Downloader downloader)
         {
 			this.url = url;
-			this.parser = parser;
-			this.downloader = downloader;
+			_parser = parser;
+			_downloader = downloader;
         }
 		public IEnumerable<string> GetUrls()
 		{
-			List<string> result = new List<string> { };
-			List<string> queueOfUrls = new List<string> { url };
+			List<string> result = new List<string>() { };
+			List<string> queueOfUrls = new List<string>() { url };
 
 			do
 			{
 				string currentUrl = queueOfUrls.First();
 
-				string document = downloader.Download(currentUrl);
+				string document = _downloader.Download(currentUrl);
 
 				if (string.IsNullOrEmpty(document))
                 {
@@ -33,7 +33,7 @@ namespace Crawler.Logic
 					continue;
 				}
 
-				var foundedUrls = parser.ParseUrls(currentUrl, document);
+				var foundedUrls = _parser.ParseUrls(currentUrl, document);
 
 				queueOfUrls.AddRange(foundedUrls);
 
