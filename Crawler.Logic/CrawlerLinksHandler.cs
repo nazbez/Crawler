@@ -11,7 +11,7 @@ namespace Crawler.Logic
             _timer = timer;
         }
 
-        public IEnumerable<CrawlingResult> GetResultOfCrawling(List<string> urlsFromHtml, List<string> urlsFromSitemap)
+        public virtual IEnumerable<CrawlingResult> GetResultOfCrawling(List<string> urlsFromHtml, List<string> urlsFromSitemap)
         {
             List<CrawlingResult> result = new List<CrawlingResult>() { };
 
@@ -28,7 +28,7 @@ namespace Crawler.Logic
                 result.Add(new CrawlingResult(url, time, isInSitemap, isInHtml));
             }
 
-            return result;
+            return result.OrderBy(x=>x.Time);
         }
 
         private IEnumerable<string> Merge(List<string> urlsFromHtml, List<string> urlsFromSitemap)

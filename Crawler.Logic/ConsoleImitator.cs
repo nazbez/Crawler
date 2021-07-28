@@ -10,9 +10,9 @@ namespace Crawler.Logic
             return Console.ReadLine();
         }
 
-        public virtual void WriteLine()
+        public virtual void WriteLine(string message)
         {
-            Console.WriteLine();
+            Console.WriteLine(message);
         }
     }
 }

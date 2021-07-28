@@ -6,17 +6,17 @@ namespace Crawler.Logic
 	{ 
 		private readonly ParserSitemap _parser;
 		private readonly Downloader _downloader;
-		private string url;
 
-		public SitemapCrawler(string url, ParserSitemap parser, Downloader downloader)
+		public SitemapCrawler(ParserSitemap parser, Downloader downloader)
         {
 			_parser = parser;
 			_downloader = downloader;
-			this.url = url;
         }
 
-		public IEnumerable<string> GetUrls()
+		public virtual IEnumerable<string> GetUrls(string adress)
 		{
+			string url = adress;
+
 			List<string> listOfUrls = new List<string> { };
 
 			string document = _downloader.Download(url);

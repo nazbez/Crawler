@@ -31,7 +31,7 @@ namespace Crawler.Logic
 
                 href = ConvertToUnifiedForm(href);
 
-                if (href.Contains(url) && !href.Contains("#"))
+                if (href.Contains(new Uri(url).Host) && !href.Contains("#"))
                 { 
                     listOfUrls.Add(href);
                 }

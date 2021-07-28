@@ -14,6 +14,7 @@ namespace Crawler.Logic.Tests
         {
             _mockParser = new Mock<ParserHtml>();
             _mockDownloader = new Mock<Downloader>();
+            crawler = new HtmlCrawler(_mockParser.Object, _mockDownloader.Object);
         }
 
         [Fact]
@@ -23,8 +24,7 @@ namespace Crawler.Logic.Tests
             _mockDownloader.Setup(x => x.Download(It.IsAny<string>())).Returns("");
 
             // Act
-            crawler = new HtmlCrawler("Not url", _mockParser.Object, _mockDownloader.Object);
-            var result = crawler.GetUrls() as List<string>;
+            var result = crawler.GetUrls("Not url") as List<string>;
 
             // Assert
             Assert.Equal(new List<string> { }, result);
@@ -37,8 +37,7 @@ namespace Crawler.Logic.Tests
             _mockDownloader.Setup(x => x.Download(It.IsAny<string>())).Returns("");
 
             // Act
-            crawler = new HtmlCrawler("Not url", _mockParser.Object, _mockDownloader.Object);
-            var result = crawler.GetUrls() as List<string>;
+            var result = crawler.GetUrls("Not url") as List<string>;
 
             // Assert
             _mockParser.Verify(x => x.ParseUrls(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
@@ -53,8 +52,7 @@ namespace Crawler.Logic.Tests
             _mockParser.Setup(x => x.ParseUrls(It.IsAny<string>(), It.IsAny<string>())).Returns(new List<string> { });
                 
             // Act
-            crawler = new HtmlCrawler("Url1", _mockParser.Object, _mockDownloader.Object);
-            var result = crawler.GetUrls();
+            var result = crawler.GetUrls("Url1") as List<string>;
 
             // Assert
             Assert.Equal(new List<string> { "Url1" }, result);
@@ -68,8 +66,7 @@ namespace Crawler.Logic.Tests
             _mockParser.Setup(x => x.ParseUrls(It.IsAny<string>(), It.IsAny<string>())).Returns(new List<string> { });
 
             // Act
-            crawler = new HtmlCrawler("Url1", _mockParser.Object, _mockDownloader.Object);
-            var result = crawler.GetUrls();
+            var result = crawler.GetUrls("Url1");
 
             // Assert
             _mockDownloader.Verify(x => x.Download(It.IsAny<string>()), Times.Once);
@@ -90,8 +87,7 @@ namespace Crawler.Logic.Tests
                 .Returns(new List<string> { "Url1", "Url2", "Url3"});
 
             // Act
-            crawler = new HtmlCrawler("Url1", _mockParser.Object, _mockDownloader.Object);
-            var result = crawler.GetUrls();
+            var result = crawler.GetUrls("Url1") as List<string>;
 
             // Assert
             Assert.Equal(new List<string> { "Url1", "Url2", "Url3" }, result);
@@ -111,8 +107,7 @@ namespace Crawler.Logic.Tests
                 .Returns(new List<string> { "Url1", "Url2", "Url3" });
 
             // Act
-            crawler = new HtmlCrawler("Url1", _mockParser.Object, _mockDownloader.Object);
-            var result = crawler.GetUrls();
+            var result = crawler.GetUrls("Url1");
 
             // Assert
             _mockDownloader.Verify(x => x.Download(It.IsAny<string>()), Times.Exactly(3));

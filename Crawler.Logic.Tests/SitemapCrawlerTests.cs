@@ -14,7 +14,7 @@ namespace Crawler.Logic.Tests
         {
             _mockParser = new Mock<ParserSitemap>();
             _mockDownloader = new Mock<Downloader>();
-            _crawler = new SitemapCrawler("Test", _mockParser.Object, _mockDownloader.Object);
+            _crawler = new SitemapCrawler(_mockParser.Object, _mockDownloader.Object);
         }
 
         [Fact]
@@ -24,7 +24,7 @@ namespace Crawler.Logic.Tests
             _mockDownloader.Setup(x => x.Download(It.IsAny<string>())).Returns("");
             
             // Act
-            var result = _crawler.GetUrls();
+            var result = _crawler.GetUrls("Test");
 
             // Assert
             Assert.Equal(new List<string> { }, result);           
@@ -37,7 +37,7 @@ namespace Crawler.Logic.Tests
             _mockDownloader.Setup(x => x.Download(It.IsAny<string>())).Returns("");
 
             // Act
-            var result = _crawler.GetUrls();
+            var result = _crawler.GetUrls("Test");
 
             // Assert
             _mockParser.Verify(x => x.Parse(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
@@ -58,7 +58,7 @@ namespace Crawler.Logic.Tests
                 .Returns(new List<string> { "Url1 from second sitemap"});
 
             // Act
-            var result = _crawler.GetUrls();
+            var result = _crawler.GetUrls("Test");
 
             // Assert
             Assert.Equal(new List<string> 
@@ -83,7 +83,7 @@ namespace Crawler.Logic.Tests
                 .Returns(new List<string> { "Url1 from second sitemap" });
 
             // Act
-            var result = _crawler.GetUrls();
+            var result = _crawler.GetUrls("Test");
 
             // Assert
             _mockDownloader.Verify(x => x.Download(It.IsAny<string>()), Times.Exactly(3));
@@ -100,7 +100,7 @@ namespace Crawler.Logic.Tests
                 .Returns(new List<string> { "Url1", "Url2" });
 
             // Act
-            var result = _crawler.GetUrls();
+            var result = _crawler.GetUrls("Test");
 
             // Assert
             Assert.Equal(new List<string> { "Url1", "Url2" }, result);
@@ -116,7 +116,7 @@ namespace Crawler.Logic.Tests
                 .Returns(new List<string> { "Url1", "Url2" });
 
             // Act
-            var result = _crawler.GetUrls();
+            var result = _crawler.GetUrls("Test");
 
             // Assert
             _mockParser.Verify(x => x.Parse(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(2));

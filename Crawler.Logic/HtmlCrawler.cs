@@ -7,18 +7,16 @@ namespace Crawler.Logic
     {
 		private readonly Downloader _downloader;
 		private readonly ParserHtml _parser;
-		private string url;
 
-		public HtmlCrawler(string url, ParserHtml parser, Downloader downloader)
+		public HtmlCrawler(ParserHtml parser, Downloader downloader)
         {
-			this.url = url;
 			_parser = parser;
 			_downloader = downloader;
         }
-		public IEnumerable<string> GetUrls()
+		public virtual IEnumerable<string> GetUrls(string adress)
 		{
 			List<string> result = new List<string>() { };
-			List<string> queueOfUrls = new List<string>() { url };
+			List<string> queueOfUrls = new List<string>() { adress };
 
 			do
 			{

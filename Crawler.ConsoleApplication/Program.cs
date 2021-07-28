@@ -1,20 +1,17 @@
 ﻿using Crawler.Logic;
-using System;
-using System.Collections.Generic;
 
 namespace Crawler.ConsoleApplication
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
-            var x = new HtmlCrawler("https://www.ukad-group.com", new ParserHtml(), new Downloader());
-            Console.WriteLine(((List<string>)x.GetUrls()).Count);
+            ConsoleApp application = new ConsoleApp(new ConsoleImitator(), 
+                new CrawlerLinksHandler(new Timer()),
+                new HtmlCrawler(new ParserHtml(), new Downloader()), 
+                new SitemapCrawler(new ParserSitemap(), new Downloader()));
 
-            Console.WriteLine();
-
-            var a = new SitemapCrawler("https://www.ukad-group.com/sitemap.xml", new ParserSitemap(), new Downloader());
-            Console.WriteLine(((List<string>)a.GetUrls()).Count);
+            application.Interract();
         }
     }
 }
