@@ -1,6 +1,7 @@
 ﻿using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Crawler.Logic
 {
@@ -32,8 +33,10 @@ namespace Crawler.Logic
                 href = ConvertToUnifiedForm(href);
 
                 if (href.Contains(new Uri(url).Host) && !href.Contains("#"))
-                { 
+                {
                     listOfUrls.Add(href);
+
+                    listOfUrls = listOfUrls.Distinct().ToList();
                 }
             }
 
