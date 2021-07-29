@@ -27,7 +27,7 @@ namespace Crawler.Logic.Tests
             var result = _crawler.GetUrls("Test");
 
             // Assert
-            Assert.Equal(new List<string> { }, result);           
+            Assert.Empty(result);           
         }
 
         [Fact]

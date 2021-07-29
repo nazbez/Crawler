@@ -27,7 +27,7 @@ namespace Crawler.Logic.Tests
             var result = crawler.GetUrls("Not url") as List<string>;
 
             // Assert
-            Assert.Equal(new List<string> { }, result);
+            Assert.Empty(result);
         }
 
         [Fact]

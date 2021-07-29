@@ -1,7 +1,4 @@
-﻿using System.Text;
-using System.Net;
-using System;
-using System.Linq;
+﻿using System.Net;
 
 namespace Crawler.Logic
 {
@@ -13,11 +10,9 @@ namespace Crawler.Logic
             {
                 WebClient webClient = new WebClient();
 
-                byte[] data = webClient.DownloadData(url);
+                string download = webClient.DownloadString(url);
 
-                string download = Encoding.ASCII.GetString(data);
-
-                return string.Join("" , download.SkipWhile(x=> x != '<'));
+                return download;
             }
             catch (WebException)
             {

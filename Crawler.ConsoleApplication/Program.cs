@@ -1,4 +1,6 @@
-﻿using Crawler.Logic;
+﻿using ConsoleTables;
+using Crawler.Logic;
+using System;
 
 namespace Crawler.ConsoleApplication
 {
@@ -6,12 +8,13 @@ namespace Crawler.ConsoleApplication
     {
         static void Main(string[] args)
         {
-            ConsoleApp application = new ConsoleApp(new ConsoleImitator(), 
-                new CrawlerLinksHandler(new Timer()),
-                new HtmlCrawler(new ParserHtml(), new Downloader()), 
-                new SitemapCrawler(new ParserSitemap(), new Downloader()));
+            ConsoleApp app = new ConsoleApp(new ConsoleImitator(),
+                new CrawlerService(new HtmlCrawler(new ParserHtml(), new Downloader()),
+                new SitemapCrawler(new ParserSitemap(), new Downloader()),
+                new CrawlerLinksHandler(new Timer())), new Printer());
 
-            application.Interract();
+            app.Interract();
+
         }
     }
 }

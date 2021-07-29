@@ -6,7 +6,7 @@ namespace Crawler.Logic
 {
     public class Timer
     {
-        public virtual double CheckTimeResponse(string url)
+        public virtual int CheckTimeResponse(string url)
         {
 			try
 			{
@@ -16,18 +16,15 @@ namespace Crawler.Logic
 
 				timer.Start();
 
-				HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+				var response = request.GetResponse();
 
 				timer.Stop();
 
-				TimeSpan timeTaken = timer.Elapsed;
-
-				return timeTaken.TotalMilliseconds;
-				
+				return (int)timer.ElapsedMilliseconds;			
 			}
-			catch (Exception)
+			catch (WebException)
 			{
-				return 0;
+				return -1;
 			}
 		}
     }

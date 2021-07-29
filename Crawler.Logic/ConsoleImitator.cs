@@ -1,6 +1,5 @@
 ﻿using System;
 
-
 namespace Crawler.Logic
 {
     public class ConsoleImitator

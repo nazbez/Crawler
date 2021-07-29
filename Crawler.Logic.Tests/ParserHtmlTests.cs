@@ -15,7 +15,7 @@ namespace Crawler.Logic.Tests
             var result = parser.ParseUrls("Test", "Test") as List<string>;
 
             // Assert
-            Assert.Equal(new List<string> { }, result);
+            Assert.Empty(result);
         }
 
         [Fact]

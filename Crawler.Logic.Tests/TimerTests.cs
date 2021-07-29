@@ -8,13 +8,13 @@ namespace Crawler.Logic.Tests
         private readonly Timer _timer = new Timer();
 
         [Fact]
-        public void CheckTimeResponse_InvalidParam_Zero()
+        public void CheckTimeResponse_InvalidParam_MinusOne()
         {
             // Act
             double time = _timer.CheckTimeResponse("Test");
 
             // Assert
-            Assert.Equal(0, time);
+            Assert.Equal(-1, time);
         }
 
         [Fact]

@@ -15,25 +15,26 @@ namespace Crawler.Logic
         {
             List<CrawlingResult> result = new List<CrawlingResult>() { };
 
-            var allLinks = Merge(urlsFromHtml, urlsFromSitemap);
+            var allLinks = urlsFromHtml.Union(urlsFromSitemap);
 
             foreach(var url in allLinks)
             {
-                double time = _timer.CheckTimeResponse(url);
+                int time = _timer.CheckTimeResponse(url);
 
                 bool isInHtml = urlsFromHtml.Contains(url);
 
                 bool isInSitemap = urlsFromSitemap.Contains(url);
 
-                result.Add(new CrawlingResult(url, time, isInSitemap, isInHtml));
+                result.Add(new CrawlingResult() 
+                { 
+                    Url = url, 
+                    Time = time, 
+                    IsInHtml = isInHtml, 
+                    IsInSitemap = isInSitemap
+                });
             }
 
             return result.OrderBy(x=>x.Time);
-        }
-
-        private IEnumerable<string> Merge(List<string> urlsFromHtml, List<string> urlsFromSitemap)
-        {
-            return urlsFromHtml.Union(urlsFromSitemap);
         }
     }
 }

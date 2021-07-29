@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml;
+using System.Linq;
 
 namespace Crawler.Logic
 {
@@ -10,6 +11,8 @@ namespace Crawler.Logic
         {
             XmlDocument document = new XmlDocument();
             List<string> result = new List<string> { };
+
+            doc = TransformToValidDocument(doc);
 
             try
             {
@@ -49,6 +52,13 @@ namespace Crawler.Logic
         private string СonvertToUnifiedForm(string url)
         {
             return url.EndsWith('/') ? url.Remove(url.Length - 1, 1) : url;
+        }
+
+        private string TransformToValidDocument(string document)
+        {
+            return document.StartsWith("<") ?
+                string.Join("", document.SkipWhile(x => x != '<')) :
+                document;
         }
     }
 }

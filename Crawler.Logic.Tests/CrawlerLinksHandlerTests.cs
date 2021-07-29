@@ -27,7 +27,7 @@ namespace Crawler.Logic.Tests
             var result = _handler.GetResultOfCrawling(new List<string> { "test1" }, new List<string> { "test2" });
 
             // Assert
-            Assert.IsType(new CrawlingResult("", 0, true, true).GetType(), result.First());
+            Assert.IsType(new CrawlingResult().GetType(), result.First());
         }
 
         [Fact]
