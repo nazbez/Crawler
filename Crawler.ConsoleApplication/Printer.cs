@@ -1,13 +1,21 @@
 ﻿using ConsoleTables;
 using Crawler.Logic;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Crawler.ConsoleApplication
 {
     public class Printer
     {
-        public void PrintDifference(IEnumerable<CrawlingResult> result)
+        private readonly ConsoleImitator _console;
+        public Printer()
         {
+            _console = new ConsoleImitator();
+        }
+        public void PrintDifference(IEnumerable<CrawlingResult> result, string typeOfCrawler)
+        {
+            _console.WriteLine($"\nLinks found only by {typeOfCrawler} crawler\n");
+
             ConsoleTable table = new ConsoleTable("Number", "Url");
 
             int count = 0;
@@ -27,6 +35,8 @@ namespace Crawler.ConsoleApplication
 
         public void PrintTimeOfResponse(IEnumerable<CrawlingResult> result)
         {
+            _console.WriteLine("\nAll links with their time of response\n");
+
             ConsoleTable table = new ConsoleTable("Number", "Url", "Time");
 
             int count = 0;
@@ -42,6 +52,11 @@ namespace Crawler.ConsoleApplication
             }
 
             table.Write(Format.Alternative);
+        }
+
+        public void PrintCountOfLinks(List<CrawlingResult> result, string typeOfCrawler)
+        {
+            _console.WriteLine($"\nCount of links founded by {typeOfCrawler} crawler: {result.Count}");
         }
     }
 }

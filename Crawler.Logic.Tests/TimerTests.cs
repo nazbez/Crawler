@@ -18,7 +18,7 @@ namespace Crawler.Logic.Tests
         }
 
         [Fact]
-        public void CheckTimeResponse_InvalidParam_NotZero()
+        public void CheckTimeResponse_ValidParam_NotZero()
         {
             // Act
             double time = _timer.CheckTimeResponse("https://google.com");

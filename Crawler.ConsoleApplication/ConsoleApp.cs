@@ -34,22 +34,15 @@ namespace Crawler.ConsoleApplication
 
             var result = _service.Crawl(url);
 
-            _console.WriteLine("\nLinks found only by html crawler\n");
+            _printer.PrintDifference(result.Where(x => x.IsInHtml && !x.IsInSitemap), "html");
 
-            _printer.PrintDifference(result.Where(x => x.IsInHtml && !x.IsInSitemap));
-
-            _console.WriteLine("\nLinks found only by sitemap crawler\n");
-
-            _printer.PrintDifference(result.Where(x => !x.IsInHtml && x.IsInSitemap));
-
-            _console.WriteLine("\nAll links with their time of response\n");
+            _printer.PrintDifference(result.Where(x => !x.IsInHtml && x.IsInSitemap), "sitemap");
 
             _printer.PrintTimeOfResponse(result);
 
-            _console.WriteLine($"\nCount of links founded by html crawler: {result.Where(x => x.IsInHtml).ToList().Count}");
+            _printer.PrintCountOfLinks(result.Where(x => x.IsInHtml).ToList(), "html");
 
-            _console.WriteLine($"\nCount of links founded by sitemap crawler: {result.Where(x => x.IsInSitemap).ToList().Count}");
-
+            _printer.PrintCountOfLinks(result.Where(x => x.IsInSitemap).ToList(), "sitemap");
         }
 
         private bool IsValid(string url)
@@ -63,7 +56,5 @@ namespace Crawler.ConsoleApplication
                 url.Substring(0, url.Length - 1) :
                 url;
         }
-
-
     }
 }

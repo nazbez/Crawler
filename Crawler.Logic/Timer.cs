@@ -26,6 +26,10 @@ namespace Crawler.Logic
 			{
 				return -1;
 			}
+            catch (UriFormatException)
+            {
+				return -1;
+            }
 		}
     }
 }
