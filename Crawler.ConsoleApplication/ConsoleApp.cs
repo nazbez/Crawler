@@ -28,6 +28,8 @@ namespace Crawler.ConsoleApplication
                 return;
             }
 
+            _console.WriteLine("\nWait please...\n");
+
             url = DeleteSlashAtEnd(url);
 
             var result = _service.Crawl(url);

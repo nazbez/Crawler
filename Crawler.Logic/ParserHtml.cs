@@ -45,11 +45,18 @@ namespace Crawler.Logic
 
         private string GetAbsoluteUrlString(string baseUrl, string url)
         {
-            var uri = new Uri(url, UriKind.RelativeOrAbsolute);
-            if (!uri.IsAbsoluteUri)
-                uri = new Uri(new Uri(baseUrl), uri);
+            try
+            {
+                var uri = new Uri(url, UriKind.RelativeOrAbsolute);
+                if (!uri.IsAbsoluteUri)
+                    uri = new Uri(new Uri(baseUrl), uri);
 
-            return uri.ToString();
+                return uri.ToString();
+            }
+            catch (UriFormatException)
+            {
+                return string.Empty;
+            }
         }
 
         private string ConvertToUnifiedForm(string adress)

@@ -33,7 +33,10 @@ namespace Crawler.Logic
 
                     adress = СonvertToUnifiedForm(adress);
 
-                    result.Add(adress);
+                    if (!string.IsNullOrEmpty(adress))
+                    {
+                        result.Add(adress);
+                    }
                 }
             }
 
@@ -42,11 +45,18 @@ namespace Crawler.Logic
         
         private string GetAbsoluteString(string baseUrl, string url)
         {
-            Uri uri = new Uri(new Uri(baseUrl), url);
+            try
+            {
+                Uri uri = new Uri(new Uri(baseUrl), url);
 
-            string adress = uri.ToString();
+                string adress = uri.ToString();
 
-            return adress;
+                return adress;
+            }
+            catch (UriFormatException)
+            {
+                return string.Empty;
+            }
         }
 
         private string СonvertToUnifiedForm(string url)
