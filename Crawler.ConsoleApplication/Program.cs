@@ -1,6 +1,4 @@
-﻿using ConsoleTables;
-using Crawler.Logic;
-using System;
+﻿using Crawler.Logic;
 
 namespace Crawler.ConsoleApplication
 {

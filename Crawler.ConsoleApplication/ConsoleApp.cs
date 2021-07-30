@@ -24,7 +24,7 @@ namespace Crawler.ConsoleApplication
 
             if (!IsValid(url))
             {
-                _console.WriteLine("Error! Invalid input");
+                _console.WriteLine("\nError! Invalid input\n");
                 return;
             }
 

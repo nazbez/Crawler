@@ -14,7 +14,7 @@ namespace Crawler.Logic
             _sitemapCrawler = sitemapCrawler;
             _handler = handler;
         }
-        public IEnumerable<CrawlingResult> Crawl(string url)
+        public virtual IEnumerable<CrawlingResult> Crawl(string url)
         {
             var linksFromHtml = _htmlCrawler.GetUrls(url);
 
