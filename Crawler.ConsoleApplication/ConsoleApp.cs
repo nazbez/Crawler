@@ -1,58 +1,55 @@
 ﻿using Crawler.Logic;
+using System;
 using System.Linq;
 
 namespace Crawler.ConsoleApplication
 {
     public class ConsoleApp
     {
-        private readonly ConsoleImitator _console;
-        private readonly CrawlerService _service;
         private readonly Printer _printer;
+        private readonly CrawlerService _service;
 
-        public ConsoleApp(ConsoleImitator console, CrawlerService service, Printer printer)
+        public ConsoleApp(Printer printer, CrawlerService service)
         {
-            _console = console;
-            _service = service;
             _printer = printer;
+            _service = service;
         }
 
         public void Interract()
         {
-            _console.WriteLine("Enter the url adress");
+            Console.WriteLine("Enter the url");
 
-            string url = _console.ReadLine();
+            string url = DeleteSlashAtTheEnd(Console.ReadLine());
 
-            if (!IsValid(url))
+            Console.WriteLine("\nWait...\n");
+
+            try
             {
-                _console.WriteLine("\nError! Invalid input\n");
-                return;
+                var crawlingResults = _service.Crawl(url);
+
+                _printer.PrintUniqueLinks(crawlingResults
+                    .Where(x => x.IsInHtml && !x.IsInSitemap)
+                    .Select(x => x.Url), "html");
+
+                _printer.PrintUniqueLinks(crawlingResults
+                    .Where(x => !x.IsInHtml && x.IsInSitemap)
+                    .Select(x => x.Url), "sitemap");
+
+                var timeOfResponseResults = _service.GetTimeOfResponses(crawlingResults);
+
+                _printer.PrintTimeOfResponse(timeOfResponseResults);
+
+                _printer.PrintCountOfLinks(crawlingResults.Count(x => x.IsInHtml), crawlingResults.Count(x => x.IsInSitemap));
             }
-
-            _console.WriteLine("\nWait please...\n");
-
-            url = DeleteSlashAtEnd(url);
-
-            var result = _service.Crawl(url);
-
-            _printer.PrintDifference(result.Where(x => x.IsInHtml && !x.IsInSitemap), "html");
-
-            _printer.PrintDifference(result.Where(x => !x.IsInHtml && x.IsInSitemap), "sitemap");
-
-            _printer.PrintTimeOfResponse(result);
-
-            _printer.PrintCountOfLinks(result.Where(x => x.IsInHtml).ToList(), "html");
-
-            _printer.PrintCountOfLinks(result.Where(x => x.IsInSitemap).ToList(), "sitemap");
+            catch (ArgumentException err)
+            {
+                Console.WriteLine(err.Message);
+            }
         }
 
-        private bool IsValid(string url)
+        private string DeleteSlashAtTheEnd(string url)
         {
-            return url.StartsWith("https://") || url.StartsWith("http://");
-        }
-
-        private string DeleteSlashAtEnd(string url)
-        {
-            return url.EndsWith('/') ?
+            return url.EndsWith("/") ?
                 url.Substring(0, url.Length - 1) :
                 url;
         }

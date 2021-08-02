@@ -1,19 +1,16 @@
 ﻿using ConsoleTables;
-using Crawler.Logic;
+using Crawler.Logic.Models;
 using System.Collections.Generic;
+using System;
+
 
 namespace Crawler.ConsoleApplication
 {
     public class Printer
     {
-        private readonly ConsoleImitator _console;
-        public Printer()
+        public virtual void PrintUniqueLinks(IEnumerable<string> result, string typeOfCrawler)
         {
-            _console = new ConsoleImitator();
-        }
-        public virtual void PrintDifference(IEnumerable<CrawlingResult> result, string typeOfCrawler)
-        {
-            _console.WriteLine($"\nLinks found only by {typeOfCrawler} crawler\n");
+            Console.WriteLine($"\nLinks found only by {typeOfCrawler} crawler\n");
 
             ConsoleTable table = new ConsoleTable("Number", "Url");
 
@@ -21,19 +18,20 @@ namespace Crawler.ConsoleApplication
 
             foreach(var item in result)
             {
-                table.AddRow($"{++count}", $"{item.Url}");
+                table.AddRow($"{++count}", $"{item}");
             }
 
             if (count == 0)
             {
                 table.AddRow("None", "None");
             }
+
             table.Write(Format.Alternative);
         }
 
-        public virtual void PrintTimeOfResponse(IEnumerable<CrawlingResult> result)
+        public virtual void PrintTimeOfResponse(IEnumerable<TimeOfResponseResult> result)
         {
-            _console.WriteLine("\nAll links with their time of response\n");
+            Console.WriteLine("\nAll links with their time of response\n");
 
             ConsoleTable table = new ConsoleTable("Number", "Url", "Time");
 
@@ -52,9 +50,10 @@ namespace Crawler.ConsoleApplication
             table.Write(Format.Alternative);
         }
 
-        public virtual void PrintCountOfLinks(List<CrawlingResult> result, string typeOfCrawler)
+        public virtual void PrintCountOfLinks(int countOfHtml, int countOfSitemap)
         {
-            _console.WriteLine($"\nCount of links founded by {typeOfCrawler} crawler: {result.Count}");
+            Console.WriteLine($"\nCount of links founded by html crawler: {countOfHtml}");
+            Console.WriteLine($"\nCount of links founded by sitemap crawler: {countOfSitemap}");
         }
     }
 }

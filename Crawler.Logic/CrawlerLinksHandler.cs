@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Crawler.Logic.Models;
 
 namespace Crawler.Logic
 {
@@ -11,30 +12,22 @@ namespace Crawler.Logic
             _timer = timer;
         }
 
-        public virtual IEnumerable<CrawlingResult> GetResultOfCrawling(List<string> urlsFromHtml, List<string> urlsFromSitemap)
+        public virtual IEnumerable<TimeOfResponseResult> GetResultOfCrawling(IEnumerable<string> links)
         {
-            List<CrawlingResult> result = new List<CrawlingResult>() { };
+            List<TimeOfResponseResult> result = new List<TimeOfResponseResult>() { };
 
-            var allLinks = urlsFromHtml.Union(urlsFromSitemap);
-
-            foreach(var url in allLinks)
+            foreach(var url in links)
             {
                 int time = _timer.CheckTimeResponse(url);
 
-                bool isInHtml = urlsFromHtml.Contains(url);
-
-                bool isInSitemap = urlsFromSitemap.Contains(url);
-
-                result.Add(new CrawlingResult() 
+                result.Add(new TimeOfResponseResult() 
                 { 
                     Url = url, 
                     Time = time, 
-                    IsInHtml = isInHtml, 
-                    IsInSitemap = isInSitemap
                 });
             }
 
-            return result.OrderBy(x=>x.Time);
+            return result.OrderBy(x => x.Time);
         }
     }
 }

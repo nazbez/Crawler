@@ -1,6 +1,8 @@
 ﻿using Xunit;
 using Moq;
 using System.Collections.Generic;
+using Crawler.Logic.Parsers;
+
 
 namespace Crawler.Logic.Tests
 {
@@ -24,24 +26,10 @@ namespace Crawler.Logic.Tests
             _mockDownloader.Setup(x => x.Download(It.IsAny<string>())).Returns("");
 
             // Act
-            var result = crawler.GetUrls("Not url") as List<string>;
+            var result = crawler.GetUrls("Test");
 
             // Assert
             Assert.Empty(result);
-        }
-
-        [Fact]
-        public void GetUrls_NotUrl_CountOfCallsOfMethods()
-        {
-            // Arrange
-            _mockDownloader.Setup(x => x.Download(It.IsAny<string>())).Returns("");
-
-            // Act
-            var result = crawler.GetUrls("Not url") as List<string>;
-
-            // Assert
-            _mockParser.Verify(x => x.ParseUrls(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
-            _mockDownloader.Verify(x => x.Download(It.IsAny<string>()), Times.Once);
         }
 
         [Fact]

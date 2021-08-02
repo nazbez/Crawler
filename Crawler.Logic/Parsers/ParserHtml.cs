@@ -1,16 +1,13 @@
 ﻿using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace Crawler.Logic
+namespace Crawler.Logic.Parsers
 {
     public class ParserHtml
     {
-        public virtual IEnumerable<string> ParseUrls(string adress, string doc)
+        public virtual IEnumerable<string> ParseUrls(string url, string doc)
         {
-            string url = adress;
-
             HtmlDocument document = new HtmlDocument();
 
             document.LoadHtml(doc);
@@ -32,11 +29,14 @@ namespace Crawler.Logic
 
                 href = ConvertToUnifiedForm(href);
 
-                if (href.Contains(new Uri(url).Host) && !href.Contains("#"))
+                if (href.Contains("#"))
+                {
+                    continue;
+                }
+
+                if (href.Contains(new Uri(url).Host) && !listOfUrls.Contains(href))
                 {
                     listOfUrls.Add(href);
-
-                    listOfUrls = listOfUrls.Distinct().ToList();
                 }
             }
 

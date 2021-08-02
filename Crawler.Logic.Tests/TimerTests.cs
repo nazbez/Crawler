@@ -26,7 +26,5 @@ namespace Crawler.Logic.Tests
             // Assert
             Assert.InRange(time, 50, 1000);
         }
-
-        
     }
 }

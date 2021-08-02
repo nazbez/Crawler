@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System;
+using Crawler.Logic.Parsers;
 
 namespace Crawler.Logic
 {
@@ -13,10 +16,8 @@ namespace Crawler.Logic
 			_downloader = downloader;
         }
 
-		public virtual IEnumerable<string> GetUrls(string adress)
+		public virtual IEnumerable<string> GetUrls(string url)
 		{
-			string url = adress;
-
 			List<string> listOfUrls = new List<string> { };
 
 			string document = _downloader.Download(url);
@@ -28,24 +29,24 @@ namespace Crawler.Logic
 
 			var listOfSitemaps = _parser.Parse(document, url, "sitemap") as List<string>;
 
-			if (IsEmptyListOfIndexedSitemaps(listOfSitemaps))
+			if (listOfSitemaps.Count == 0)
 			{
 				listOfUrls = _parser.Parse(document, url, "url") as List<string>;
+
 				return listOfUrls;
 			}
 
 			foreach (var sitemap in listOfSitemaps)
             {
 				document = _downloader.Download(sitemap);
-				listOfUrls.AddRange(_parser.Parse(document, sitemap, "url"));
+
+				var parsedLinks = _parser.Parse(document, sitemap, "url")
+					                     .Where(x => !listOfUrls.Contains(x));
+
+				listOfUrls.AddRange(parsedLinks);
             }
 
 			return listOfUrls;
-		}
-
-		private bool IsEmptyListOfIndexedSitemaps(List<string> listOfSitemaps)
-        {
-			return listOfSitemaps.Count == 0;
 		}
 	}
 }

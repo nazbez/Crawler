@@ -1,6 +1,7 @@
 ﻿using Xunit;
 using Moq;
 using System.Collections.Generic;
+using Crawler.Logic.Parsers;
 
 namespace Crawler.Logic.Tests
 {
@@ -8,13 +9,13 @@ namespace Crawler.Logic.Tests
     {
         private readonly Mock<ParserSitemap> _mockParser;
         private readonly Mock<Downloader> _mockDownloader;
-        private readonly SitemapCrawler _crawler;
+        private SitemapCrawler crawler;
 
         public SitemapCrawlerTests()
         {
             _mockParser = new Mock<ParserSitemap>();
             _mockDownloader = new Mock<Downloader>();
-            _crawler = new SitemapCrawler(_mockParser.Object, _mockDownloader.Object);
+            crawler = new SitemapCrawler(_mockParser.Object, _mockDownloader.Object);
         }
 
         [Fact]
@@ -22,26 +23,12 @@ namespace Crawler.Logic.Tests
         {
             // Arrange
             _mockDownloader.Setup(x => x.Download(It.IsAny<string>())).Returns("");
-            
-            // Act
-            var result = _crawler.GetUrls("Test");
-
-            // Assert
-            Assert.Empty(result);           
-        }
-
-        [Fact]
-        public void GetUrls_InvalidParams_CountOfCallsOfMethods()
-        {
-            // Arrange
-            _mockDownloader.Setup(x => x.Download(It.IsAny<string>())).Returns("");
 
             // Act
-            var result = _crawler.GetUrls("Test");
+            var result = crawler.GetUrls("Test");
 
             // Assert
-            _mockParser.Verify(x => x.Parse(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
-            _mockDownloader.Verify(x => x.Download(It.IsAny<string>()), Times.Once);
+            Assert.Empty(result);
         }
 
         [Fact]
@@ -58,7 +45,7 @@ namespace Crawler.Logic.Tests
                 .Returns(new List<string> { "Url1 from second sitemap"});
 
             // Act
-            var result = _crawler.GetUrls("Test");
+            var result = crawler.GetUrls("Test");
 
             // Assert
             Assert.Equal(new List<string> 
@@ -83,7 +70,7 @@ namespace Crawler.Logic.Tests
                 .Returns(new List<string> { "Url1 from second sitemap" });
 
             // Act
-            var result = _crawler.GetUrls("Test");
+            var result = crawler.GetUrls("Test");
 
             // Assert
             _mockDownloader.Verify(x => x.Download(It.IsAny<string>()), Times.Exactly(3));
@@ -100,7 +87,7 @@ namespace Crawler.Logic.Tests
                 .Returns(new List<string> { "Url1", "Url2" });
 
             // Act
-            var result = _crawler.GetUrls("Test");
+            var result = crawler.GetUrls("Test");
 
             // Assert
             Assert.Equal(new List<string> { "Url1", "Url2" }, result);
@@ -116,7 +103,7 @@ namespace Crawler.Logic.Tests
                 .Returns(new List<string> { "Url1", "Url2" });
 
             // Act
-            var result = _crawler.GetUrls("Test");
+            var result = crawler.GetUrls("Test");
 
             // Assert
             _mockParser.Verify(x => x.Parse(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(2));

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Linq;
 
-namespace Crawler.Logic
+namespace Crawler.Logic.Parsers
 {
     public class ParserSitemap
     { 
@@ -33,7 +33,7 @@ namespace Crawler.Logic
 
                     adress = СonvertToUnifiedForm(adress);
 
-                    if (!string.IsNullOrEmpty(adress))
+                    if (!string.IsNullOrEmpty(adress) && !result.Contains(adress))
                     {
                         result.Add(adress);
                     }
