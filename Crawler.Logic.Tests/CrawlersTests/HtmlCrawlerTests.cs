@@ -2,6 +2,7 @@
 using Moq;
 using System.Collections.Generic;
 using Crawler.Logic.Parsers;
+using System;
 
 
 namespace Crawler.Logic.Tests
@@ -10,96 +11,61 @@ namespace Crawler.Logic.Tests
     {
         private readonly Mock<ParserHtml> _mockParser;
         private readonly Mock<Downloader> _mockDownloader;
-        private HtmlCrawler crawler;
+        private readonly HtmlCrawler _crawler;
 
         public HtmlCrawlerTests()
         {
             _mockParser = new Mock<ParserHtml>();
             _mockDownloader = new Mock<Downloader>();
-            crawler = new HtmlCrawler(_mockParser.Object, _mockDownloader.Object);
+            _crawler = new HtmlCrawler(_mockParser.Object, _mockDownloader.Object);
         }
 
         [Fact]
-        public void GetUrls_NotUrl_EmptyList()
+        public void GetUrls_InvalidUrl_EmptyList()
         {
             // Arrange
             _mockDownloader.Setup(x => x.Download(It.IsAny<string>())).Returns("");
 
             // Act
-            var result = crawler.GetUrls("Test");
+            var result = _crawler.GetUrls("Test");
 
             // Assert
             Assert.Empty(result);
         }
 
         [Fact]
-        public void GetUrls_UrlDoesntContainOtherUrls_ListWithOneUrl()
+        public void GetUrls_HtmlDoesntContainOtherUrls_ListWithOneUrl()
         {
             // Arrange
-            _mockDownloader.Setup(x => x.Download(It.IsAny<string>())).Returns("Document");
-            _mockParser.Setup(x => x.ParseUrls(It.IsAny<string>(), It.IsAny<string>())).Returns(new List<string> { });
+            _mockDownloader.Setup(x => x.Download(It.IsAny<string>())).Returns("<!doctype html><html></html>");
+            _mockParser.Setup(x => x.ParseUrls(It.IsAny<string>(), It.IsAny<string>())).Returns(Array.Empty<string>);
                 
             // Act
-            var result = crawler.GetUrls("Url1") as List<string>;
+            var result = _crawler.GetUrls("https://someurl.com") as List<string>;
 
             // Assert
-            Assert.Equal(new List<string> { "Url1" }, result);
+            Assert.Equal(new List<string> { "https://someurl.com" }, result);
         }
 
         [Fact]
-        public void GetUrls_UrlDoesntContainOtherUrls_CountOfCallsOfMethods()
-        {
-            // Arrange
-            _mockDownloader.Setup(x => x.Download(It.IsAny<string>())).Returns("Document");
-            _mockParser.Setup(x => x.ParseUrls(It.IsAny<string>(), It.IsAny<string>())).Returns(new List<string> { });
-
-            // Act
-            var result = crawler.GetUrls("Url1");
-
-            // Assert
-            _mockDownloader.Verify(x => x.Download(It.IsAny<string>()), Times.Once);
-            _mockParser.Verify(x => x.ParseUrls(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
-        }
-
-        [Fact]
-        public void GetUrls_UrlContainsOtherUrls_ListOfUrls()
+        public void GetUrls_HtmlContainsOtherUrls_ListOfUrls()
         {
             // Arrange
             _mockDownloader.SetupSequence(x => x.Download(It.IsAny<string>()))
-                .Returns("First document")
-                .Returns("Second document")
-                .Returns("Third document");
+                .Returns("<!doctype html><html><a href = \"https://someurl.com/2\"></a></html>")
+                .Returns("<!doctype html><html><a href = \"https://someurl.com/3\"></a></html>")
+                .Returns("<!doctype html><html></html>");
+
             _mockParser.SetupSequence(x => x.ParseUrls(It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(new List<string> { "Url2" })
-                .Returns(new List<string> { "Url3" })
-                .Returns(new List<string> { "Url1", "Url2", "Url3"});
+                .Returns(new List<string> { "https://someurl.com/2" })
+                .Returns(new List<string> { "https://someurl.com/3" })
+                .Returns(new List<string> { });
 
             // Act
-            var result = crawler.GetUrls("Url1") as List<string>;
+            var result = _crawler.GetUrls("https://someurl.com") as List<string>;
 
             // Assert
-            Assert.Equal(new List<string> { "Url1", "Url2", "Url3" }, result);
-        }
-
-        [Fact]
-        public void GetUrls_UrlContainsOtherUrls_CountOfCallsOfMethods()
-        {
-            // Arrange
-            _mockDownloader.SetupSequence(x => x.Download(It.IsAny<string>()))
-                .Returns("First document")
-                .Returns("Second document")
-                .Returns("Third document");
-            _mockParser.SetupSequence(x => x.ParseUrls(It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(new List<string> { "Url2" })
-                .Returns(new List<string> { "Url3" })
-                .Returns(new List<string> { "Url1", "Url2", "Url3" });
-
-            // Act
-            var result = crawler.GetUrls("Url1");
-
-            // Assert
-            _mockDownloader.Verify(x => x.Download(It.IsAny<string>()), Times.Exactly(3));
-            _mockParser.Verify(x => x.ParseUrls(It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(3));
+            Assert.Equal(new List<string> { "https://someurl.com", "https://someurl.com/2", "https://someurl.com/3" }, result);
         }
     }
 }

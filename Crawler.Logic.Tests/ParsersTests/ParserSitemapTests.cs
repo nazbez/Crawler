@@ -7,33 +7,29 @@ namespace Crawler.Logic.Tests
 {
     public class ParserSitemapTests
     {
-        [Fact]
-        public void Parse_InvalidParams_EmptyList()
-        {
-            // Arrange
-            ParserSitemap parser = new ParserSitemap();
+        private readonly ParserSitemap _parser = new ParserSitemap();
 
+        [Fact]
+        public void Parse_InvalidUrl_EmptyList()
+        {
             // Act
-            var result = parser.Parse("Test", "Test", "Test") as List<string>;
+            var result = _parser.Parse("Test", "Test", "Test");
 
             // Assert
             Assert.Empty(result);
         }
 
         [Fact]
-        public void Parse_Sitemap_ListOfSitemaps()
+        public void Parse_ValidUrl_ListOfSitemaps()
         {
-            // Arrange
+            // Act
             string document = "<urlset>" +
                "<url><loc>https://nure.ua/external/blagodiyna-diyalnist</loc></url>" +
                "<url><loc>https://nure.ua/ru/external/blagotvoritelnyiy-fond-inteko</loc></url>" +
                "<url><loc>https://nure.ua/en/external/charitable-foundation-inteco</loc></url>" +
                "</urlset>";
 
-            ParserSitemap parser = new ParserSitemap();
-
-            // Act
-            var result = parser.Parse(document, "https://nure.ua/external-sitemap.xml", "url") as List<string>;
+            var result = _parser.Parse(document, "https://nure.ua/external-sitemap.xml", "url");
 
             // Assert
             Assert.Equal(new List<string> 
@@ -45,59 +41,30 @@ namespace Crawler.Logic.Tests
         }
 
         [Fact]
-        public void Parse_IndexedSitemap_ListOfUrls()
+        public void Parse_UrlsAreRelative_ListOfAbsoluteUrls()
         {
-            // Arrange
-            string document = "<sitemapindex>" +
-               "<sitemap><loc>https://translate.google.com/mainsitemap.xml</loc></sitemap>" +
-               "<sitemap><loc>https://translate.google.com/aboutsitemap.xml</loc></sitemap>" +
-               "</sitemapindex>";
-
-            ParserSitemap parser = new ParserSitemap();
-
             // Act
-            var result = parser.Parse(document, "https://translate.google.com/sitemap.xml", "sitemap") as List<string>;
-
-            // Assert
-            Assert.Equal(new List<string> 
-            { 
-                "https://translate.google.com/mainsitemap.xml", 
-                "https://translate.google.com/aboutsitemap.xml" 
-            }, result);
-        }
-
-        [Fact]
-        public void Parse_UrlsAreNotAbsolute_ListOfAbsoluteUrls()
-        {
-            // Arrange
             string document = "<urlset>" +
                "<url><loc>/api/</loc></url>" +
                "<url><loc>/docs/</loc></url>" +
                "</urlset>";
-
-            ParserSitemap parser = new ParserSitemap();
-
-            // Act
-            var result = parser.Parse(document, "https://www.litedb.org/sitemap.xml", "sitemap") as List<string>;
+            
+            var result = _parser.Parse(document, "https://www.litedb.org/sitemap.xml", "sitemap");
 
             // Assert
             Assert.Empty(result.Where(x=>!x.StartsWith("https://www.litedb.org")));
         }
 
         [Fact]
-        public void Parse_UrlsEndWithSlash_UrlsWithoutSlashesInTheEnd()
+        public void Parse_UrlsEndWithSlash_RemoveSlashes()
         {
-
-            // Arrange
+            // Act
             string document = "<urlset>" +
                 "<url><loc>/api/</loc></url>" +
                 "<url><loc>/docs/</loc></url>" +
                 "</urlset>";
-
-            ParserSitemap parser = new ParserSitemap();
-
-            // Act
-            var result = parser.Parse(document, "https://www.litedb.org/sitemap.xml", "sitemap") as List<string>;
+           
+            var result = _parser.Parse(document, "https://www.litedb.org/sitemap.xml", "sitemap");
 
             // Assert
             Assert.Empty(result.Where(x => !x.EndsWith("/")));

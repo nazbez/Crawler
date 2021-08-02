@@ -17,6 +17,7 @@ namespace Crawler.Logic
             _htmlCrawler = htmlCrawler;
             _sitemapCrawler = sitemapCrawler;
             _validator = validator;
+            _timer = timer;
         }
 
         public virtual IEnumerable<CrawlingResult> Crawl(string url)

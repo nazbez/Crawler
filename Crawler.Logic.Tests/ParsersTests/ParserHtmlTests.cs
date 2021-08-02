@@ -6,27 +6,24 @@ namespace Crawler.Logic.Tests
 {
     public class ParserHtmlTests
     {
-        [Fact]
-        public void ParseUrls_InvalidParams_EmptyList()
-        {
-            // Arrange
-            ParserHtml parser = new ParserHtml();
+        // Arrange
+        private readonly ParserHtml _parser = new ParserHtml();
 
+        [Fact]
+        public void ParseUrls_InvalidUrl_EmptyList()
+        {
             // Act
-            var result = parser.ParseUrls("Test", "Test");
+            var result = _parser.ParseUrls("Test", "Test");
 
             // Assert
             Assert.Empty(result);
         }
 
         [Fact]
-        public void ParseUrls_ValidParams_ListOfUrls()
+        public void ParseUrls_ValidUrl_ListOfUrls()
         {
-            // Arrange
-            ParserHtml parser = new ParserHtml();
-
             // Act
-            var result = parser.ParseUrls("https://nazar.com",
+            var result = _parser.ParseUrls("https://nazar.com",
                 "<a href=\"https://nazar.com/bio\"</a> " +
                 "<a href=\"https://nazar.com/info\"</a> " +
                 "<a href=\"https://nazar.com/education\"</a>");
@@ -41,13 +38,10 @@ namespace Crawler.Logic.Tests
         }
 
         [Fact]
-        public void ParserUrls_IgnoreUrlWithOtherDomain()
+        public void ParseUrls_IgnoreUrlWithOtherDomain()
         {
-            // Arrange
-            ParserHtml parser = new ParserHtml();
-
             // Act
-            var result = parser.ParseUrls("https://nazar.com", 
+            var result = _parser.ParseUrls("https://nazar.com", 
                 "<a href=\"https://google.com/\"></a> " +
                 "<a href=\"https://nazar.com/bio\"</a> " +
                 "<a href=\"https://nazar.com/info\"</a> " +
@@ -63,13 +57,10 @@ namespace Crawler.Logic.Tests
         }
 
         [Fact]
-        public void ParserUrls_HtmlHasNotAbsoluteUrls_ListOfAbsoluteUrls()
+        public void ParseUrls_HtmlHasRelativeUrls_ListOfAbsoluteUrls()
         {
-            // Arrange
-            ParserHtml parserHtml = new ParserHtml();
-
             // Act
-            var result = parserHtml.ParseUrls("https://nazar.com", 
+            var result = _parser.ParseUrls("https://nazar.com", 
                 "<a href=\"/bio\"</a>" +
                 "<a href=\"/info\"</a> " +
                 "<a href=\"/education\"</a>");
@@ -84,13 +75,10 @@ namespace Crawler.Logic.Tests
         }
 
         [Fact]
-        public void ParseUrls_IgnoreUrlsWhichHaveAnchor()
+        public void ParseUrls_IgnoreUrlsWithAnchor()
         {
-            // Arrange
-            ParserHtml parserHtml = new ParserHtml();
-
             // Act
-            var result = parserHtml.ParseUrls("https://nazar.com", 
+            var result = _parser.ParseUrls("https://nazar.com", 
                 "<a href=\"https://nazar.com/bio#\"</a> " +
                 "<a href=\"https://nazar.com/bio\"</a>");
 
@@ -99,13 +87,10 @@ namespace Crawler.Logic.Tests
         }
 
         [Fact]
-        public void ParseUrls_UrlsEndWithSlash_UrlsWithoutSlashesInTheEnd()
+        public void ParseUrls_UrlsEndWithSlash_RemoveSlashes()
         {
-            // Arrange
-            ParserHtml parserHtml = new ParserHtml();
-
             // Act
-            var result = parserHtml.ParseUrls("https://nazar.com", 
+            var result = _parser.ParseUrls("https://nazar.com", 
                 "<a href=\"https://nazar.com/bio/\"</a>" +
                 "<a href=\"https://nazar.com/info/\"</a>" +
                 "<a href=\"https://nazar.com/education/\"</a>");

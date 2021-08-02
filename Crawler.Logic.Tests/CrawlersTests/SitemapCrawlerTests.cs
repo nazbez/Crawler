@@ -2,6 +2,7 @@
 using Moq;
 using System.Collections.Generic;
 using Crawler.Logic.Parsers;
+using System;
 
 namespace Crawler.Logic.Tests
 {
@@ -9,103 +10,63 @@ namespace Crawler.Logic.Tests
     {
         private readonly Mock<ParserSitemap> _mockParser;
         private readonly Mock<Downloader> _mockDownloader;
-        private SitemapCrawler crawler;
+        private readonly SitemapCrawler _crawler;
 
         public SitemapCrawlerTests()
         {
             _mockParser = new Mock<ParserSitemap>();
             _mockDownloader = new Mock<Downloader>();
-            crawler = new SitemapCrawler(_mockParser.Object, _mockDownloader.Object);
+            _crawler = new SitemapCrawler(_mockParser.Object, _mockDownloader.Object);
         }
 
         [Fact]
-        public void GetUrls_InvalidParams_EmptyList()
+        public void GetUrls_InvalidUrl_EmptyList()
         {
             // Arrange
             _mockDownloader.Setup(x => x.Download(It.IsAny<string>())).Returns("");
 
             // Act
-            var result = crawler.GetUrls("Test");
+            var result = _crawler.GetUrls("Test");
 
             // Assert
             Assert.Empty(result);
         }
 
         [Fact]
-        public void GetUrls_SitemapContainLinkOnOthersSitemap_ListWithUrls()
+        public void GetUrls_SitemapContainLinkOnOthersSitemaps_ListWithUrls()
         {
             // Arrange
             _mockDownloader.SetupSequence(x => x.Download(It.IsAny<string>()))
-                .Returns("aa");
+                .Returns("<sitemapindex><sitemap><loc>https://someurl1/sitemap.xml</loc></sitemap></sitemapindex>")
+                .Returns("<urlset><url><loc>https://someurl</loc></url></urlset>");
+
             _mockParser.SetupSequence(x => x.Parse(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(new List<string> { "URL1/sitemap.xml", "URL2/sitemap.xml"})
-                .Returns(new List<string> { "Url1 from first sitemap", "Url2 from first sitemap"})
-                .Returns(new List<string> { "Url1 from second sitemap"});
+                .Returns(new List<string> { "https://someurl1/sitemap.xml" })
+                .Returns(new List<string> { "https://someurl" });
 
             // Act
-            var result = crawler.GetUrls("Test");
+            var result = _crawler.GetUrls("Test");
 
             // Assert
-            Assert.Equal(new List<string> 
-            { 
-                "Url1 from first sitemap", 
-                "Url2 from first sitemap", 
-                "Url1 from second sitemap" 
-            }, result);
-        }
-
-        [Fact]
-        public void GetUrls_SitemapContainLinkOnOthersSitemaps_CountOfCallsOfMethods()
-        {
-            // Arrange
-            _mockDownloader.SetupSequence(x => x.Download(It.IsAny<string>()))
-                .Returns("Document with sitemaps")
-                .Returns("First sitemap document")
-                .Returns("Second sitemap document");
-            _mockParser.SetupSequence(x => x.Parse(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(new List<string> { "URL1/sitemap.xml", "URL2/sitemap.xml" })
-                .Returns(new List<string> { "Url1 from first sitemap", "Url2 from first sitemap" })
-                .Returns(new List<string> { "Url1 from second sitemap" });
-
-            // Act
-            var result = crawler.GetUrls("Test");
-
-            // Assert
-            _mockDownloader.Verify(x => x.Download(It.IsAny<string>()), Times.Exactly(3));
-            _mockParser.Verify(x => x.Parse(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(3));
+            Assert.Equal(new List<string> { "https://someurl" }, result);
         }
 
         [Fact]
         public void GetUrls_SitemapContainOnlyUrls_ListWithUrls()
         {
             // Arrange
-            _mockDownloader.Setup(x => x.Download(It.IsAny<string>())).Returns("Document with urls");
+            _mockDownloader.Setup(x => x.Download(It.IsAny<string>()))
+                .Returns("<urlset><url><loc>https://someurl</loc></url></urlset>");
+
             _mockParser.SetupSequence(x => x.Parse(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(new List<string> { })
-                .Returns(new List<string> { "Url1", "Url2" });
+                .Returns(Array.Empty<string>)
+                .Returns(new List<string> { "https://someurl" });
 
             // Act
-            var result = crawler.GetUrls("Test");
+            var result = _crawler.GetUrls("https://someurl/sitemap.xml");
 
             // Assert
-            Assert.Equal(new List<string> { "Url1", "Url2" }, result);
-        }
-
-        [Fact]
-        public void GetUrls_SitemapContainOnlyUrls_CountOfCallsOfMethods()
-        {
-            // Arrange
-            _mockDownloader.Setup(x => x.Download(It.IsAny<string>())).Returns("Document with urls");
-            _mockParser.SetupSequence(x => x.Parse(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(new List<string> { })
-                .Returns(new List<string> { "Url1", "Url2" });
-
-            // Act
-            var result = crawler.GetUrls("Test");
-
-            // Assert
-            _mockParser.Verify(x => x.Parse(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(2));
-            _mockDownloader.Verify(x => x.Download(It.IsAny<string>()), Times.Once);
+            Assert.Equal(new List<string> { "https://someurl" }, result);
         }
     }
 }
