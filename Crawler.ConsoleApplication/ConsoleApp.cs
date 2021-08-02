@@ -37,7 +37,7 @@ namespace Crawler.ConsoleApplication
 
                 var timeOfResponseResults = _service.GetTimeOfResponses(crawlingResults);
 
-                _printer.PrintTimeOfResponse(timeOfResponseResults);
+                _printer.PrintTimeOfResponse(timeOfResponseResults.OrderBy(x => x.Time));
 
                 _printer.PrintCountOfLinks(crawlingResults.Count(x => x.IsInHtml), crawlingResults.Count(x => x.IsInSitemap));
             }

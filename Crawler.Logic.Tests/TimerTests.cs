@@ -16,15 +16,5 @@ namespace Crawler.Logic.Tests
             // Assert
             Assert.Equal(-1, time);
         }
-
-        [Fact]
-        public void CheckTimeResponse_ValidParam_NotZero()
-        {
-            // Act
-            double time = _timer.CheckTimeResponse("https://google.com");
-
-            // Assert
-            Assert.InRange(time, 50, 1000);
-        }
     }
 }

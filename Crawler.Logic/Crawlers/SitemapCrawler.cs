@@ -27,9 +27,9 @@ namespace Crawler.Logic
 				return listOfUrls;
             }
 
-			var listOfSitemaps = _parser.Parse(document, url, "sitemap") as List<string>;
+			var listOfSitemaps = _parser.Parse(document, url, "sitemap");
 
-			if (listOfSitemaps.Count == 0)
+			if (listOfSitemaps.Count() == 0)
 			{
 				listOfUrls = _parser.Parse(document, url, "url") as List<string>;
 

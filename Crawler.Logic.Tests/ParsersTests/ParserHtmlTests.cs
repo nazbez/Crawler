@@ -13,14 +13,14 @@ namespace Crawler.Logic.Tests
             ParserHtml parser = new ParserHtml();
 
             // Act
-            var result = parser.ParseUrls("Test", "Test") as List<string>;
+            var result = parser.ParseUrls("Test", "Test");
 
             // Assert
             Assert.Empty(result);
         }
 
         [Fact]
-        public void ParserUrls_ValidParams_ListOfUrls()
+        public void ParseUrls_ValidParams_ListOfUrls()
         {
             // Arrange
             ParserHtml parser = new ParserHtml();
@@ -29,7 +29,7 @@ namespace Crawler.Logic.Tests
             var result = parser.ParseUrls("https://nazar.com",
                 "<a href=\"https://nazar.com/bio\"</a> " +
                 "<a href=\"https://nazar.com/info\"</a> " +
-                "<a href=\"https://nazar.com/education\"</a>") as List<string>;
+                "<a href=\"https://nazar.com/education\"</a>");
 
             // Assert
             Assert.Equal(new List<string>
@@ -51,7 +51,7 @@ namespace Crawler.Logic.Tests
                 "<a href=\"https://google.com/\"></a> " +
                 "<a href=\"https://nazar.com/bio\"</a> " +
                 "<a href=\"https://nazar.com/info\"</a> " +
-                "<a href=\"https://nazar.com/education\"</a>") as List<string>;
+                "<a href=\"https://nazar.com/education\"</a>");
 
             // Assert
             Assert.Equal(new List<string> 
@@ -72,7 +72,7 @@ namespace Crawler.Logic.Tests
             var result = parserHtml.ParseUrls("https://nazar.com", 
                 "<a href=\"/bio\"</a>" +
                 "<a href=\"/info\"</a> " +
-                "<a href=\"/education\"</a>") as List<string>;
+                "<a href=\"/education\"</a>");
 
             // Assert
             Assert.Equal(new List<string> 
@@ -92,7 +92,7 @@ namespace Crawler.Logic.Tests
             // Act
             var result = parserHtml.ParseUrls("https://nazar.com", 
                 "<a href=\"https://nazar.com/bio#\"</a> " +
-                "<a href=\"https://nazar.com/bio\"</a>") as List<string>;
+                "<a href=\"https://nazar.com/bio\"</a>");
 
             // Assert
             Assert.Equal(new List<string> { "https://nazar.com/bio" }, result);
@@ -108,7 +108,7 @@ namespace Crawler.Logic.Tests
             var result = parserHtml.ParseUrls("https://nazar.com", 
                 "<a href=\"https://nazar.com/bio/\"</a>" +
                 "<a href=\"https://nazar.com/info/\"</a>" +
-                "<a href=\"https://nazar.com/education/\"</a>") as List<string>;
+                "<a href=\"https://nazar.com/education/\"</a>");
 
             // Assert
             Assert.Equal(new List<string> 

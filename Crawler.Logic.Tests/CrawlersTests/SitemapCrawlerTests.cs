@@ -36,9 +36,7 @@ namespace Crawler.Logic.Tests
         {
             // Arrange
             _mockDownloader.SetupSequence(x => x.Download(It.IsAny<string>()))
-                .Returns("Document with sitemaps")
-                .Returns("First sitemap document")
-                .Returns("Second sitemap document");
+                .Returns("aa");
             _mockParser.SetupSequence(x => x.Parse(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(new List<string> { "URL1/sitemap.xml", "URL2/sitemap.xml"})
                 .Returns(new List<string> { "Url1 from first sitemap", "Url2 from first sitemap"})

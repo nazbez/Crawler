@@ -9,14 +9,13 @@ namespace Crawler.Logic
     {
         private readonly HtmlCrawler _htmlCrawler;
         private readonly SitemapCrawler _sitemapCrawler;
-        private readonly CrawlerLinksHandler _handler;
         private readonly Validator _validator;
+        private readonly Timer _timer;
 
-        public CrawlerService(HtmlCrawler htmlCrawler, SitemapCrawler sitemapCrawler, CrawlerLinksHandler handler, Validator validator)
+        public CrawlerService(HtmlCrawler htmlCrawler, SitemapCrawler sitemapCrawler, Validator validator, Timer timer)
         {
             _htmlCrawler = htmlCrawler;
             _sitemapCrawler = sitemapCrawler;
-            _handler = handler;
             _validator = validator;
         }
 
@@ -52,9 +51,21 @@ namespace Crawler.Logic
 
         public virtual IEnumerable<TimeOfResponseResult> GetTimeOfResponses(IEnumerable<CrawlingResult> links)
         {
-            var urls = links.Select(url => url.Url);
+ 
+            List<TimeOfResponseResult> result = new List<TimeOfResponseResult>() { };
 
-            return _handler.GetResultOfCrawling(urls);
+            foreach (var url in links)
+            {
+                int time = _timer.CheckTimeResponse(url.Url);
+
+                result.Add(new TimeOfResponseResult()
+                {
+                    Url = url.Url,
+                    Time = time,
+                });
+            }
+
+            return result;
         }
     }
 }
