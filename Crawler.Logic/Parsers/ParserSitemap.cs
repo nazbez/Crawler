@@ -5,12 +5,19 @@ using System.Linq;
 
 namespace Crawler.Logic.Parsers
 {
+    public enum Tag
+    {
+        Sitemap,
+        Url
+    }
+
+
+
     public class ParserSitemap
     { 
-        public virtual IEnumerable<string> Parse(string doc, string url, string tag)
+        public virtual IEnumerable<string> Parse(string doc, string url, Tag tag)
         {
             XmlDocument document = new XmlDocument();
-            List<string> result = new List<string> { };
 
             doc = TransformToValidDocument(doc);
 
@@ -20,23 +27,27 @@ namespace Crawler.Logic.Parsers
             }
             catch (XmlException)
             {
-                return result;
+                return new List<string>(); 
             }
 
-            var xmlSitemapList = document.GetElementsByTagName(tag);
+            string foundTag = tag == Tag.Sitemap ? "sitemap" : "url";
 
+            List<string> result = new List<string> { };
+            var xmlSitemapList = document.GetElementsByTagName(foundTag);
             foreach (XmlNode node in xmlSitemapList)
             {
-                if (node["loc"] != null)
+                if (node["loc"] == null)
                 {
-                    string adress = GetAbsoluteString(url, node["loc"].InnerText);
+                    continue;
+                }
 
-                    adress = СonvertToUnifiedForm(adress);
+                string adress = GetAbsoluteString(url, node["loc"].InnerText);
 
-                    if (!string.IsNullOrEmpty(adress) && !result.Contains(adress))
-                    {
-                        result.Add(adress);
-                    }
+                adress = СonvertToUnifiedForm(adress);
+
+                if (!string.IsNullOrEmpty(adress) && !result.Contains(adress))
+                {
+                    result.Add(adress);
                 }
             }
 

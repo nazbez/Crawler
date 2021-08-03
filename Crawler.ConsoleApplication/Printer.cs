@@ -8,20 +8,34 @@ namespace Crawler.ConsoleApplication
 {
     public class Printer
     {
-        public virtual void PrintUniqueLinks(IEnumerable<string> result, string typeOfCrawler)
+        public virtual void PrintHtmlLinks(IEnumerable<string> result)
         {
-            Console.WriteLine($"\nLinks found only by {typeOfCrawler} crawler\n");
+            Console.WriteLine($"\nLinks found only by html crawler\n");
 
+            PrintLinks(result);
+        }
+
+        public virtual void PrintSitemapLinks(IEnumerable<string> result)
+        {
+            Console.WriteLine($"\nLinks found only by sitemap crawler\n");
+
+            PrintLinks(result);
+        }
+
+
+
+        private void PrintLinks(IEnumerable<string> result)
+        {
             ConsoleTable table = new ConsoleTable("Number", "Url");
 
-            int count = 0;
+            int count = 1;
 
             foreach(var item in result)
             {
-                table.AddRow($"{++count}", $"{item}");
+                table.AddRow($"{count++}", $"{item}");
             }
 
-            if (count == 0)
+            if (count == 1)
             {
                 table.AddRow("None", "None");
             }
@@ -35,14 +49,21 @@ namespace Crawler.ConsoleApplication
 
             ConsoleTable table = new ConsoleTable("Number", "Url", "Time");
 
-            int count = 0;
+            int count = 1;
 
             foreach (var item in result)
             {
-                table.AddRow($"{++count}", $"{item.Url}", $"{item.Time}");
+                if (item.Time == -1)
+                {
+                    table.AddRow($"{count++}", $"{item.Url}", $"{item.ErrorMsg}");
+
+                    continue;
+                }
+
+                table.AddRow($"{count++}", $"{item.Url}", $"{item.Time}");
             }
 
-            if (count == 0)
+            if (count == 1)
             {
                 table.AddRow("None", "None", "None");
             }

@@ -25,19 +25,21 @@ namespace Crawler.ConsoleApplication
 
             try
             {
-                var crawlingResults = _service.Crawl(url);
+                var crawlingResults = _service.GetLinksFromHtmlAndSitemap(url);
 
-                _printer.PrintUniqueLinks(crawlingResults
+                _printer.PrintHtmlLinks(crawlingResults
                     .Where(x => x.IsInHtml && !x.IsInSitemap)
-                    .Select(x => x.Url), "html");
+                    .Select(x => x.Url));
 
-                _printer.PrintUniqueLinks(crawlingResults
+                _printer.PrintSitemapLinks(crawlingResults
                     .Where(x => !x.IsInHtml && x.IsInSitemap)
-                    .Select(x => x.Url), "sitemap");
+                    .Select(x => x.Url));
 
-                var timeOfResponseResults = _service.GetTimeOfResponses(crawlingResults);
+                var timeOfResponseResults = _service.GetResponseTime(crawlingResults);
 
-                _printer.PrintTimeOfResponse(timeOfResponseResults.OrderBy(x => x.Time));
+                timeOfResponseResults = timeOfResponseResults.OrderBy(x => x.Time);
+
+                _printer.PrintTimeOfResponse(timeOfResponseResults);
 
                 _printer.PrintCountOfLinks(crawlingResults.Count(x => x.IsInHtml), crawlingResults.Count(x => x.IsInSitemap));
             }

@@ -8,23 +8,23 @@ namespace Crawler.Logic.Tests
         private readonly Validator _validator = new Validator();
 
         [Fact]
-        public void IsValid_InvalidParam_False()
+        public void IsValid_InvalidParam_ReturnErrorMessage()
         {
             // Act
-            bool result = _validator.IsValid("Test");
+            string result = _validator.IsValid("Test");
 
             // Assert
-            Assert.False(result);
+            Assert.Equal("Invalid input!", result);
         }
 
         [Fact]
-        public void IsValid_ValidParam_True()
+        public void IsValid_ValidParam_ReturnEmptyString()
         {
             // Act
-            bool result = _validator.IsValid("https://google.com");
+            string result = _validator.IsValid("https://google.com");
 
             // Assert
-            Assert.True(result);
+            Assert.Equal("", result);
         }
     }
 }

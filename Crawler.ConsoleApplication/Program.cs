@@ -1,6 +1,7 @@
 ﻿using Crawler.Logic;
 using Crawler.Logic.Parsers;
 
+
 namespace Crawler.ConsoleApplication
 {
     public class Program

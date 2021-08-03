@@ -13,7 +13,7 @@ namespace Crawler.Logic.Tests
         public void Parse_InvalidUrl_EmptyList()
         {
             // Act
-            var result = _parser.Parse("Test", "Test", "Test");
+            var result = _parser.Parse("Test", "Test", Tag.Url);
 
             // Assert
             Assert.Empty(result);
@@ -29,7 +29,7 @@ namespace Crawler.Logic.Tests
                "<url><loc>https://nure.ua/en/external/charitable-foundation-inteco</loc></url>" +
                "</urlset>";
 
-            var result = _parser.Parse(document, "https://nure.ua/external-sitemap.xml", "url");
+            var result = _parser.Parse(document, "https://nure.ua/external-sitemap.xml", Tag.Url);
 
             // Assert
             Assert.Equal(new List<string> 
@@ -49,7 +49,7 @@ namespace Crawler.Logic.Tests
                "<url><loc>/docs/</loc></url>" +
                "</urlset>";
             
-            var result = _parser.Parse(document, "https://www.litedb.org/sitemap.xml", "sitemap");
+            var result = _parser.Parse(document, "https://www.litedb.org/sitemap.xml", Tag.Url);
 
             // Assert
             Assert.Empty(result.Where(x=>!x.StartsWith("https://www.litedb.org")));
@@ -64,10 +64,10 @@ namespace Crawler.Logic.Tests
                 "<url><loc>/docs/</loc></url>" +
                 "</urlset>";
            
-            var result = _parser.Parse(document, "https://www.litedb.org/sitemap.xml", "sitemap");
+            var result = _parser.Parse(document, "https://www.litedb.org/sitemap.xml", Tag.Url);
 
             // Assert
-            Assert.Empty(result.Where(x => !x.EndsWith("/")));
+            Assert.Empty(result.Where(x => x.EndsWith("/")));
         }
     }
 }

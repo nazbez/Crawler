@@ -26,11 +26,11 @@ namespace Crawler.Logic
 				return listOfUrls;
             }
 
-			var listOfSitemaps = _parser.Parse(document, url, "sitemap");
+			var listOfSitemaps = _parser.Parse(document, url, Tag.Sitemap);
 
 			if (listOfSitemaps.Count() == 0)
 			{
-				listOfUrls = _parser.Parse(document, url, "url") as List<string>;
+				listOfUrls = _parser.Parse(document, url, Tag.Url).ToList();
 
 				return listOfUrls;
 			}
@@ -39,7 +39,7 @@ namespace Crawler.Logic
             {
 				document = _downloader.Download(sitemap);
 
-				var parsedLinks = _parser.Parse(document, sitemap, "url")
+				var parsedLinks = _parser.Parse(document, sitemap, Tag.Url)
 					                     .Where(x => !listOfUrls.Contains(x));
 
 				listOfUrls.AddRange(parsedLinks);

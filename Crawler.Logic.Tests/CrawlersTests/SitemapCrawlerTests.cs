@@ -40,7 +40,7 @@ namespace Crawler.Logic.Tests
                 .Returns("<sitemapindex><sitemap><loc>https://someurl1/sitemap.xml</loc></sitemap></sitemapindex>")
                 .Returns("<urlset><url><loc>https://someurl</loc></url></urlset>");
 
-            _mockParser.SetupSequence(x => x.Parse(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+            _mockParser.SetupSequence(x => x.Parse(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Tag>()))
                 .Returns(new List<string> { "https://someurl1/sitemap.xml" })
                 .Returns(new List<string> { "https://someurl" });
 
@@ -58,7 +58,7 @@ namespace Crawler.Logic.Tests
             _mockDownloader.Setup(x => x.Download(It.IsAny<string>()))
                 .Returns("<urlset><url><loc>https://someurl</loc></url></urlset>");
 
-            _mockParser.SetupSequence(x => x.Parse(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+            _mockParser.SetupSequence(x => x.Parse(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Tag>()))
                 .Returns(Array.Empty<string>)
                 .Returns(new List<string> { "https://someurl" });
 

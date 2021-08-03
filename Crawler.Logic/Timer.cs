@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Net;
+using Crawler.Logic.Models;
 
 namespace Crawler.Logic
 {
     public class Timer
     {
-        public virtual int CheckTimeResponse(string url)
+        public virtual TimeOfResponseResult CheckTimeResponse(string url)
         {
-			try
-			{
-				HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
 
 				Stopwatch timer = new Stopwatch();
 
@@ -20,15 +21,30 @@ namespace Crawler.Logic
 
 				timer.Stop();
 
-				return (int)timer.ElapsedMilliseconds;			
-			}
-			catch (WebException)
+                return new TimeOfResponseResult()
+                {
+                    Url = url,
+                    Time = (int)timer.ElapsedMilliseconds,
+                    ErrorMsg = ""
+                };
+            }
+			catch (WebException err)
 			{
-				return -1;
-			}
-            catch (UriFormatException)
+                return new TimeOfResponseResult()
+                {
+                    Url = url,
+                    Time = -1,
+                    ErrorMsg = err.Message
+                };
+            }
+            catch (UriFormatException err)
             {
-				return -1;
+                return new TimeOfResponseResult()
+                {
+                    Url = url,
+                    Time = -1,
+                    ErrorMsg = err.Message
+                };
             }
 		}
     }

@@ -20,11 +20,13 @@ namespace Crawler.Logic
             _timer = timer;
         }
 
-        public virtual IEnumerable<CrawlingResult> Crawl(string url)
+        public virtual IEnumerable<CrawlingResult> GetLinksFromHtmlAndSitemap(string url)
         {
-            if (!_validator.IsValid(url))
+            string errorMsg = _validator.IsValid(url);
+
+            if (!(errorMsg == ""))
             {
-                throw new ArgumentException("\nError! Invalid input!\n");
+                throw new ArgumentException(errorMsg);
             }
 
             var linksFromHtml = _htmlCrawler.GetUrls(url);
@@ -50,20 +52,15 @@ namespace Crawler.Logic
             return result;
         }
 
-        public virtual IEnumerable<TimeOfResponseResult> GetTimeOfResponses(IEnumerable<CrawlingResult> links)
+        public virtual IEnumerable<TimeOfResponseResult> GetResponseTime(IEnumerable<CrawlingResult> links)
         {
- 
-            List<TimeOfResponseResult> result = new List<TimeOfResponseResult>() { };
+            List<TimeOfResponseResult> result = new();
 
             foreach (var url in links)
             {
-                int time = _timer.CheckTimeResponse(url.Url);
+                var responseResult = _timer.CheckTimeResponse(url.Url);
 
-                result.Add(new TimeOfResponseResult()
-                {
-                    Url = url.Url,
-                    Time = time,
-                });
+                result.Add(responseResult);
             }
 
             return result;

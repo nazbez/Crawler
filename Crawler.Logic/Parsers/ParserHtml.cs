@@ -47,9 +47,7 @@ namespace Crawler.Logic.Parsers
         {
             try
             {
-                var uri = new Uri(url, UriKind.RelativeOrAbsolute);
-                if (!uri.IsAbsoluteUri)
-                    uri = new Uri(new Uri(baseUrl), uri);
+                Uri uri = new Uri(new Uri(baseUrl), url);
 
                 return uri.ToString();
             }
@@ -57,7 +55,8 @@ namespace Crawler.Logic.Parsers
             {
                 return string.Empty;
             }
-        }
+        
+        }  
 
         private string ConvertToUnifiedForm(string adress)
         {
