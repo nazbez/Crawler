@@ -53,7 +53,9 @@ namespace Crawler.ConsoleApplication
 
             foreach (var item in result)
             {
-                if (item.Time == -1)
+                var isErrorInResponse = item.Time == -1;
+
+                if (isErrorInResponse)
                 {
                     table.AddRow($"{count++}", $"{item.Url}", $"{item.ErrorMsg}");
 
@@ -63,7 +65,9 @@ namespace Crawler.ConsoleApplication
                 table.AddRow($"{count++}", $"{item.Url}", $"{item.Time}");
             }
 
-            if (count == 1)
+            var isTableEmpty = count == 1;
+
+            if (isTableEmpty)
             {
                 table.AddRow("None", "None", "None");
             }

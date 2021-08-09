@@ -18,11 +18,10 @@ namespace Crawler.Logic
                 return "Invalid input!";
             }
 
-
             try
             {
                 WebClient wc = new WebClient();
-                string HTMLSource = wc.DownloadString(url);
+                string document = wc.DownloadString(url);
                 return "";
             }
             catch (WebException err)

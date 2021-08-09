@@ -33,7 +33,7 @@ namespace Crawler.Logic
 
             var linksFromSitemap = _sitemapCrawler.GetUrls(url + "/sitemap.xml");
 
-            var result = new List<CrawlingResult> { };
+            var result = new List<CrawlingResult>();
 
             foreach (var item in linksFromHtml.Union(linksFromSitemap))
             {

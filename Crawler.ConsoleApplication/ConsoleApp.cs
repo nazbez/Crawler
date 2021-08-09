@@ -8,23 +8,25 @@ namespace Crawler.ConsoleApplication
     {
         private readonly Printer _printer;
         private readonly CrawlerService _service;
+        private readonly DbHandler _dbHandler;
 
-        public ConsoleApp(Printer printer, CrawlerService service)
+        public ConsoleApp(Printer printer, CrawlerService service, DbHandler dbHandler)
         {
             _printer = printer;
             _service = service;
+            _dbHandler = dbHandler;
         }
 
-        public void Interract()
+        public async void Interract()
         {
             Console.WriteLine("Enter the url");
 
             string url = DeleteSlashAtTheEnd(Console.ReadLine());
 
-            Console.WriteLine("\nWait...\n");
-
             try
             {
+                Console.WriteLine("\nWait for crawling...\n");
+
                 var crawlingResults = _service.GetLinksFromHtmlAndSitemap(url);
 
                 _printer.PrintHtmlLinks(crawlingResults
@@ -35,6 +37,8 @@ namespace Crawler.ConsoleApplication
                     .Where(x => !x.IsInHtml && x.IsInSitemap)
                     .Select(x => x.Url));
 
+                Console.WriteLine("\nWait for checking response time...\n");
+
                 var timeOfResponseResults = _service.GetResponseTime(crawlingResults);
 
                 timeOfResponseResults = timeOfResponseResults.OrderBy(x => x.Time);
@@ -42,11 +46,17 @@ namespace Crawler.ConsoleApplication
                 _printer.PrintTimeOfResponse(timeOfResponseResults);
 
                 _printer.PrintCountOfLinks(crawlingResults.Count(x => x.IsInHtml), crawlingResults.Count(x => x.IsInSitemap));
+
+                Console.WriteLine("\nSaving to database\n");
+
+                await _dbHandler.SaveResultAsync(url, crawlingResults, timeOfResponseResults);
             }
             catch (ArgumentException err)
             {
                 Console.WriteLine(err.Message);
             }
+
+            Environment.Exit(0);
         }
 
         private string DeleteSlashAtTheEnd(string url)

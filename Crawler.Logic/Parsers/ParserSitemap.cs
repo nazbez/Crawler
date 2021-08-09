@@ -11,8 +11,6 @@ namespace Crawler.Logic.Parsers
         Url
     }
 
-
-
     public class ParserSitemap
     { 
         public virtual IEnumerable<string> Parse(string doc, string url, Tag tag)
@@ -32,7 +30,7 @@ namespace Crawler.Logic.Parsers
 
             string foundTag = tag == Tag.Sitemap ? "sitemap" : "url";
 
-            List<string> result = new List<string> { };
+            List<string> result = new List<string>();
             var xmlSitemapList = document.GetElementsByTagName(foundTag);
             foreach (XmlNode node in xmlSitemapList)
             {

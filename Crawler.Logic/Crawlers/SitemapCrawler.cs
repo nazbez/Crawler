@@ -17,7 +17,7 @@ namespace Crawler.Logic
 
 		public virtual IEnumerable<string> GetUrls(string url)
 		{
-			List<string> listOfUrls = new List<string> { };
+			List<string> listOfUrls = new List<string>();
 
 			string document = _downloader.Download(url);
 

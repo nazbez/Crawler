@@ -12,7 +12,7 @@ namespace Crawler.Logic.Parsers
 
             document.LoadHtml(doc);
 
-            List<string> listOfUrls = new List<string> { };
+            List<string> listOfUrls = new List<string>();
 
             var allUrls = document.DocumentNode.SelectNodes("//a[@href]");
 
