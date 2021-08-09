@@ -1,7 +1,7 @@
 ﻿using Moq;
 using Xunit;
 using System.Data;
-using Crawler.Models;
+using Crawler.DbModels;
 using Crawler.Logic.Models;
 using System.Collections.Generic;
 using System.Threading;

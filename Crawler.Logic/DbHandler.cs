@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Data;
-using Crawler.Models;
+using Crawler.DbModels;
 using Crawler.Logic.Models;
 
 namespace Crawler.Logic
@@ -18,7 +18,7 @@ namespace Crawler.Logic
             _testResultRepository = testResultRepository;
         }
 
-        public async Task SaveResultAsync(string url, IEnumerable<CrawlingResult> crawlingResults, IEnumerable<TimeOfResponseResult> responseResults) 
+        public async Task<int> SaveResultAsync(string url, IEnumerable<CrawlingResult> crawlingResults, IEnumerable<TimeOfResponseResult> responseResults) 
         {
             Test test = new Test { Url = url };
             await _testRepository.AddAsync(test);
@@ -28,6 +28,8 @@ namespace Crawler.Logic
 
             _testResultRepository.AddRange(testResults);
             await _testResultRepository.SaveChangesAsync();
+
+            return test.Id;
         }
 
         private IEnumerable<TestResult> TransformToTestResultCollection(Test test, IEnumerable<CrawlingResult> crawlingResults, 
@@ -39,8 +41,8 @@ namespace Crawler.Logic
                 (x, y) => new TestResult
                 {
                    Url = x.Url,
-                   IsInHtml = x.IsInHtml,
-                   IsInSitemap = x.IsInSitemap,
+                   InHtml = x.IsInHtml,
+                   InSitemap = x.IsInSitemap,
                    ResponseTime = y.Time,
                    Test = test
                 });
