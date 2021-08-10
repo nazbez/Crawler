@@ -4,4 +4,12 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Crawler.Logic\Crawler.Logic.csproj" />
+    <ProjectReference Include="..\Crawler.Models\Crawler.DbModels.csproj" />
+    <ProjectReference Include="..\Persistence\Crawler.Persistence.csproj" />
+  </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="https://json.schemastore.org/babelrc.json" /></VisualStudio></ProjectExtensions>
+
 </Project>

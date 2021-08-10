@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Crawler.WebApplication.Services;
+using Crawler.Logic.Extensions;
+using Crawler.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace Crawler.WebApplication
 {
@@ -23,6 +23,11 @@ namespace Crawler.WebApplication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string connection = Configuration.GetConnectionString("DefaultConnection");
+
+            services.AddCrawlerLogicServices();
+            services.AddEfRepository<CrawlerDbContext>(options => options.UseSqlServer(connection));
+            services.AddScoped<CrawlerService>();
             services.AddControllersWithViews();
         }
 
@@ -50,7 +55,11 @@ namespace Crawler.WebApplication
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}/");
+
+                endpoints.MapControllerRoute(
+                    name: "results",
+                    pattern: "{controller=Results}/{action=Index}/{id}");
             });
         }
     }

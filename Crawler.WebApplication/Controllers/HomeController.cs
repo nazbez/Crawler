@@ -1,37 +1,45 @@
 ﻿using Crawler.WebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+using Crawler.Logic;
+using Crawler.WebApplication.Services;
+
 
 namespace Crawler.WebApplication.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly DbHandler _dbHandler;
+        private readonly CrawlerService _crawlerService;
 
-        public HomeController(ILogger<HomeController> logger)
+
+        public HomeController(DbHandler dbHandler, CrawlerService crawlerService)
         {
-            _logger = logger;
+            _dbHandler = dbHandler;
+            _crawlerService = crawlerService;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            return View(new TestsModel() { Tests = _dbHandler.GetAllTests()});
         }
 
-        public IActionResult Privacy()
+        [HttpPost]
+        public IActionResult Index(UserInputModel input)
         {
-            return View();
-        }
+            try
+            {
+                _crawlerService.Crawl(input.Url);
+            }
+            catch (Exception err)
+            {
+                var content = new ContentResult();
+                content.Content = err.Message;
+                return content;
+            }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(new TestsModel() { Tests = _dbHandler.GetAllTests() });
         }
     }
 }
