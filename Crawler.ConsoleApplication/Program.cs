@@ -1,11 +1,12 @@
-﻿using Crawler.Logic;
-using Crawler.Logic.Parsers;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using Crawler.Persistence;
+using Crawler.Logic.Extensions;
+using Crawler.ConsoleApplication.Extensions;
+using System;
 
 namespace Crawler.ConsoleApplication
 {
@@ -24,17 +25,8 @@ namespace Crawler.ConsoleApplication
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddEfRepository<CrawlerDbContext>(options => options.UseSqlServer(@"Server=localhost;Database=CrawlerDB;Trusted_Connection=True"));
-                    services.AddScoped<DbHandler>();
-                    services.AddScoped<Downloader>();
-                    services.AddScoped<Timer>();
-                    services.AddScoped<Validator>();
-                    services.AddScoped<CrawlerService>();
-                    services.AddScoped<ParserHtml>();
-                    services.AddScoped<ParserSitemap>();
-                    services.AddScoped<HtmlCrawler>();
-                    services.AddScoped<SitemapCrawler>();
-                    services.AddScoped<Printer>();
-                    services.AddScoped<ConsoleApp>();
+                    services.AddCrawlerLogicServices();
+                    services.AddConsoleApplicationServices();
                 }).ConfigureLogging(options => options.SetMinimumLevel(LogLevel.Error));
     }
 }

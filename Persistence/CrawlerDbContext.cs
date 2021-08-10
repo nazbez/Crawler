@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Crawler.DbModels;
-using Crawler.Persistence.EntityConfigurations;
 using System.Data;
+using System.Reflection;
 
 namespace Crawler.Persistence
 {
@@ -18,8 +18,9 @@ namespace Crawler.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new TestConfiguration());
-            modelBuilder.ApplyConfiguration(new TestResultConfiguration());
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(CrawlerDbContext).Assembly);
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }
 }

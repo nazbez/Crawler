@@ -7,10 +7,10 @@ namespace Crawler.ConsoleApplication
     public class ConsoleApp
     {
         private readonly Printer _printer;
-        private readonly CrawlerService _service;
+        private readonly CrawlerHandler _service;
         private readonly DbHandler _dbHandler;
 
-        public ConsoleApp(Printer printer, CrawlerService service, DbHandler dbHandler)
+        public ConsoleApp(Printer printer, CrawlerHandler service, DbHandler dbHandler)
         {
             _printer = printer;
             _service = service;

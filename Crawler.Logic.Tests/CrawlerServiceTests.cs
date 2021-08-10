@@ -14,7 +14,7 @@ namespace Crawler.Logic.Tests
         private readonly Mock<SitemapCrawler> _mockSitemapCrawler;
         private readonly Mock<Timer> _mockTimer;
         private readonly Mock<Validator> _mockValidator;
-        private readonly CrawlerService _service;
+        private readonly CrawlerHandler _service;
 
         public CrawlerServiceTests()
         {
@@ -22,7 +22,7 @@ namespace Crawler.Logic.Tests
             _mockSitemapCrawler = new Mock<SitemapCrawler>(new ParserSitemap(), new Downloader());
             _mockTimer = new Mock<Timer>();
             _mockValidator = new Mock<Validator>();
-            _service = new CrawlerService(_mockHtmlCrawler.Object, _mockSitemapCrawler.Object, _mockValidator.Object, _mockTimer.Object);
+            _service = new CrawlerHandler(_mockHtmlCrawler.Object, _mockSitemapCrawler.Object, _mockValidator.Object, _mockTimer.Object);
         }
 
         [Fact]

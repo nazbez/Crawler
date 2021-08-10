@@ -20,9 +20,7 @@ namespace Crawler.Logic
 
         public async Task<int> SaveResultAsync(string url, IEnumerable<CrawlingResult> crawlingResults, IEnumerable<TimeOfResponseResult> responseResults) 
         {
-            Test test = new Test { Url = url };
-            await _testRepository.AddAsync(test);
-            await _testRepository.SaveChangesAsync();
+            Test test = new Test { Url = url,};
 
             var testResults = TransformToTestResultCollection(test, crawlingResults, responseResults);
 

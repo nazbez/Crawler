@@ -5,14 +5,14 @@ using System.Linq;
 
 namespace Crawler.Logic
 {
-    public class CrawlerService
+    public class CrawlerHandler
     {
         private readonly HtmlCrawler _htmlCrawler;
         private readonly SitemapCrawler _sitemapCrawler;
         private readonly Validator _validator;
         private readonly Timer _timer;
 
-        public CrawlerService(HtmlCrawler htmlCrawler, SitemapCrawler sitemapCrawler, Validator validator, Timer timer)
+        public CrawlerHandler(HtmlCrawler htmlCrawler, SitemapCrawler sitemapCrawler, Validator validator, Timer timer)
         {
             _htmlCrawler = htmlCrawler;
             _sitemapCrawler = sitemapCrawler;

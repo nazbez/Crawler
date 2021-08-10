@@ -7,6 +7,7 @@
         public bool? InHtml { get; set; }
         public bool? InSitemap { get; set; }
         public int? ResponseTime { get; set; }
+
         public int TestId { get; set; }
         public Test Test { get; set; }
     }

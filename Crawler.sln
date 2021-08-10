@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crawler.Persistence", "Pers
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crawler.DbModels", "Crawler.Models\Crawler.DbModels.csproj", "{75B3888F-E661-47FF-879F-BF99908A1F46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crawler.WebApplication", "Crawler.WebApplication\Crawler.WebApplication.csproj", "{418F97EA-140C-4EF1-A994-B2943D52C852}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crawler.WebApplication", "Crawler.WebApplication\Crawler.WebApplication.csproj", "{A4D2807B-2E3B-43A9-BEC9-EAC4F5A72E69}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +41,10 @@ Global
 		{75B3888F-E661-47FF-879F-BF99908A1F46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75B3888F-E661-47FF-879F-BF99908A1F46}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75B3888F-E661-47FF-879F-BF99908A1F46}.Release|Any CPU.Build.0 = Release|Any CPU
-		{418F97EA-140C-4EF1-A994-B2943D52C852}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{418F97EA-140C-4EF1-A994-B2943D52C852}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{418F97EA-140C-4EF1-A994-B2943D52C852}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{418F97EA-140C-4EF1-A994-B2943D52C852}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4D2807B-2E3B-43A9-BEC9-EAC4F5A72E69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4D2807B-2E3B-43A9-BEC9-EAC4F5A72E69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4D2807B-2E3B-43A9-BEC9-EAC4F5A72E69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4D2807B-2E3B-43A9-BEC9-EAC4F5A72E69}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
