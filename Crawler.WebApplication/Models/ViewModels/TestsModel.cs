@@ -5,6 +5,6 @@ namespace Crawler.WebApplication.Models
 {
     public class TestsModel
     {
-        public IEnumerable<Test> Tests { get; set; }
+        public IEnumerable<ResultModel> Tests { get; set; }
     }
 }

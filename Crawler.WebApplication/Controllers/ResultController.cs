@@ -18,11 +18,26 @@ namespace Crawler.WebApplication.Controllers
         public IActionResult Index(int id)
         {
             var testUrl = _dbHandler.GetUrlByTestId(id);
-            var testResults = _dbHandler.GetTestResultsByTestId(id).ToList();
+
+            var testResults = _dbHandler.GetTestResultsByTestId(id)
+                .Select(x => new TimeResponseResultsModel() 
+                { 
+                    Url = x.Url, 
+                    ResponseTime = x.ResponseTime
+                })
+                .ToList();
+
             var urlsFoundOnlyInSitemap = _dbHandler.GetUrlsFoundOnlyInSitemapByTestId(id);
+
             var urlsFoundOnlyInHtml = _dbHandler.GetUrlsFoundOnlyInHtmlByTestId(id);
 
-            return View(new TestResultsModel() { Url = testUrl, TestResults = testResults, UrlsFoundOnlyInSitemap = urlsFoundOnlyInSitemap, UrlsFoundOnlyInHtml= urlsFoundOnlyInHtml });
+            return View(new TestResultsModel() 
+            { 
+                Url = testUrl, 
+                TestResults = testResults, 
+                UrlsFoundOnlyInSitemap = urlsFoundOnlyInSitemap, 
+                UrlsFoundOnlyInHtml= urlsFoundOnlyInHtml 
+            });
         }
     }
 }

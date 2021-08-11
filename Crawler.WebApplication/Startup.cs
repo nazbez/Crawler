@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -54,12 +53,12 @@ namespace Crawler.WebApplication
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}/");
+                   name: "result",
+                   pattern: "{controller=Result}/{action=Index}/{id}/");
 
                 endpoints.MapControllerRoute(
-                    name: "results",
-                    pattern: "{controller=Results}/{action=Index}/{id}");
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/");
             });
         }
     }

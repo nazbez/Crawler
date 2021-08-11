@@ -1,5 +1,4 @@
-﻿
-namespace Crawler.WebApplication.Models
+﻿namespace Crawler.WebApplication.Models
 {
     public class UserInputModel
     {

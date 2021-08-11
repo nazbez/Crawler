@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using Crawler.Logic;
 using Crawler.WebApplication.Services;
-
+using System.Linq;
 
 namespace Crawler.WebApplication.Controllers
 {
@@ -22,7 +22,14 @@ namespace Crawler.WebApplication.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return View(new TestsModel() { Tests = _dbHandler.GetAllTests()});
+            return View(new TestsModel() { Tests = _dbHandler.GetAllTests()
+                .Select(x => new ResultModel() 
+                { 
+                    Id = x.Id, 
+                    Url = x.Url, 
+                    SaveTime = x.SaveTime 
+                })
+            });
         }
 
         [HttpPost]
@@ -34,12 +41,17 @@ namespace Crawler.WebApplication.Controllers
             }
             catch (Exception err)
             {
-                var content = new ContentResult();
-                content.Content = err.Message;
-                return content;
+                ModelState.AddModelError("Url", err.Message);
             }
 
-            return View(new TestsModel() { Tests = _dbHandler.GetAllTests() });
+            return View(new TestsModel() { Tests = _dbHandler.GetAllTests()
+                .Select(x => new ResultModel()
+                {
+                    Id = x.Id,
+                    Url = x.Url,
+                    SaveTime = x.SaveTime
+                })
+            });
         }
     }
 }
