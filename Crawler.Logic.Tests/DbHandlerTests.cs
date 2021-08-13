@@ -21,21 +21,6 @@ namespace Crawler.Logic.Tests
             _dbHandler = new DbHandler(_mockTestRepository.Object, _mockTestResultRepository.Object);
         }
 
-
-        [Fact]
-        public void SaveResultAsync_AddTest()
-        {
-            //Arrange
-            var crawlingResults = new List<CrawlingResult>() { new CrawlingResult() };
-            var timeResponseResults = new List<TimeOfResponseResult> { new TimeOfResponseResult() };
-
-            //Act
-            _dbHandler.SaveResultAsync("https://url.com", crawlingResults, timeResponseResults).Wait();
-
-            //Assert
-            _mockTestRepository.Verify(r => r.AddAsync(It.IsAny<Test>(), It.IsAny<CancellationToken>()), Times.Once);
-        }
-
         [Fact]
         public void SaveResultAsync_AddTestResult()
         {
