@@ -1,44 +1,39 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Crawler.Logic;
-using Crawler.WebApplication.Models;
 using System.Linq;
+using Crawler.WebApplication.Models;
+using Crawler.Logic;
 
 namespace Crawler.WebApplication.Controllers
 {
     public class ResultController : Controller
     {
         private readonly DbHandler _dbHandler;
-
         public ResultController(DbHandler dbHandler)
         {
-            _dbHandler = dbHandler;
+            _dbHandler = dbHandler;    
         }
-
-        [HttpGet]
         public IActionResult Index(int id)
         {
-            var testUrl = _dbHandler.GetUrlByTestId(id);
+            var url = _dbHandler.GetUrlByTestId(id);
 
             var testResults = _dbHandler.GetTestResultsByTestId(id)
-                .Select(x => new TimeResponseResultsModel() 
+                .Select(x => new TestResultModel() 
                 { 
                     Url = x.Url, 
-                    ResponseTime = x.ResponseTime
-                })
-                .ToList();
+                    ResponseTime = x.ResponseTime 
+                });
 
-            var urlsFoundOnlyInSitemap = _dbHandler.GetUrlsFoundOnlyInSitemapByTestId(id);
+            var onlyInHtml = _dbHandler.GetUrlsFoundOnlyInHtmlByTestId(id);
 
-            var urlsFoundOnlyInHtml = _dbHandler.GetUrlsFoundOnlyInHtmlByTestId(id);
+            var onlyInSitemap = _dbHandler.GetUrlsFoundOnlyInSitemapByTestId(id);
 
-            return View(new TestResultsModel() 
-            { 
-                Url = testUrl, 
-                TestResults = testResults, 
-                UrlsFoundOnlyInSitemap = urlsFoundOnlyInSitemap, 
-                UrlsFoundOnlyInHtml= urlsFoundOnlyInHtml 
+            return View(new TestResultsViewModel()
+            {
+                Url = url,
+                TestResults = testResults,
+                OnlyInHtml = onlyInHtml,
+                OnlyInSitemap = onlyInSitemap
             });
         }
     }
 }
-

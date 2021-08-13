@@ -1,5 +1,4 @@
-using System;
-
+﻿
 namespace Crawler.WebApplication.Models
 {
     public class ErrorViewModel

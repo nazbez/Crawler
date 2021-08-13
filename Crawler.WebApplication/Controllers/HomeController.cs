@@ -1,35 +1,28 @@
 ﻿using Crawler.WebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using Crawler.Logic;
 using Crawler.WebApplication.Services;
-using System.Linq;
 
 namespace Crawler.WebApplication.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly DbHandler _dbHandler;
         private readonly CrawlerService _crawlerService;
-
-
-        public HomeController(DbHandler dbHandler, CrawlerService crawlerService)
+        private readonly DbHandler _dbHandler;
+        public HomeController(CrawlerService crawlerService, DbHandler dbHandler)
         {
-            _dbHandler = dbHandler;
             _crawlerService = crawlerService;
+            _dbHandler = dbHandler;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            return View(new TestsModel() { Tests = _dbHandler.GetAllTests()
-                .Select(x => new ResultModel() 
-                { 
-                    Id = x.Id, 
-                    Url = x.Url, 
-                    SaveTime = x.SaveTime 
-                })
-            });
+            var tests = _dbHandler.GetAllTests().Select(x => new TestModel() { Id = x.Id, Url = x.Url, SaveTime = (DateTime)x.SaveTime });
+
+            return View(new TestsViewModel() { Tests = tests});
         }
 
         [HttpPost]
@@ -37,21 +30,23 @@ namespace Crawler.WebApplication.Controllers
         {
             try
             {
-                _crawlerService.Crawl(input.Url);
+                _crawlerService.Interract(input.Url);
             }
-            catch (Exception err)
+            catch (ArgumentException err)
             {
                 ModelState.AddModelError("Url", err.Message);
             }
 
-            return View(new TestsModel() { Tests = _dbHandler.GetAllTests()
-                .Select(x => new ResultModel()
-                {
-                    Id = x.Id,
-                    Url = x.Url,
-                    SaveTime = x.SaveTime
-                })
-            });
+            var tests = _dbHandler.GetAllTests()
+                .Select(x => new TestModel() 
+                { 
+                    Id = x.Id, 
+                    Url = x.Url, 
+                    SaveTime = (DateTime)x.SaveTime 
+                });
+
+            return View(new TestsViewModel() { Tests = tests });
+
         }
     }
 }

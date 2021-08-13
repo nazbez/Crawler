@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Crawler.WebApplication.Services;
 using Crawler.Logic.Extensions;
 using Crawler.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Crawler.WebApplication.Services;
 
 namespace Crawler.WebApplication
 {
@@ -23,9 +23,8 @@ namespace Crawler.WebApplication
         public void ConfigureServices(IServiceCollection services)
         {
             string connection = Configuration.GetConnectionString("DefaultConnection");
-
-            services.AddCrawlerLogicServices();
             services.AddEfRepository<CrawlerDbContext>(options => options.UseSqlServer(connection));
+            services.AddCrawlerLogicServices();
             services.AddScoped<CrawlerService>();
             services.AddControllersWithViews();
         }
@@ -53,12 +52,8 @@ namespace Crawler.WebApplication
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                   name: "result",
-                   pattern: "{controller=Result}/{action=Index}/{id}/");
-
-                endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

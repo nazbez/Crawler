@@ -13,13 +13,22 @@ namespace Crawler.WebApplication.Services
             _dbHandler = dbHandler;
         }
 
-        public void Crawl(string url)
+        public void Interract(string url)
         {
-            var resultOfCrawling = _crawlerHandler.GetLinksFromHtmlAndSitemap(url);
+            url = DeleteSlashAtTheEnd(url);
 
-            var resultOfResponsing = _crawlerHandler.GetResponseTime(resultOfCrawling);
+            var crawledLinks = _crawlerHandler.GetLinksFromHtmlAndSitemap(url);
 
-            _dbHandler.SaveResultAsync(url, resultOfCrawling, resultOfResponsing).Wait();
+            var responseTimeResults = _crawlerHandler.GetResponseTime(crawledLinks);
+
+            _dbHandler.SaveResultAsync(url, crawledLinks, responseTimeResults).Wait();
+        }
+
+        private string DeleteSlashAtTheEnd(string url)
+        {
+            return url.EndsWith("/") ?
+                url.Substring(0, url.Length - 1) :
+                url;
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Crawler.DbModels
     {
         public int Id { get; set; }
         public string Url { get; set; }
-        public DateTime? SaveTime { get; set; }
+        public DateTime SaveTime { get; set; }
 
         public List<TestResult> TestResults { get; set; }
     }

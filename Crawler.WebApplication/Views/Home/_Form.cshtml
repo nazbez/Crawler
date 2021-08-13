@@ -1,16 +1,13 @@
 ﻿@model Crawler.WebApplication.Models.UserInputModel
 
-<form method="post" asp-action="Index" asp-antiforgery="false" autocomplete="on">
-    <div class="d-flex">
-        <div class="p-2">
-            <label class="col-form-label">Enter a website</label>
+<div style="margin-bottom:20px">
+    <form method="post" asp-action="Index" asp-controller="Home">
+        <div class="form-group">
+            <input type="text" name="Url" class="form-control" id="urlInput" placeholder="Enter the url adress" required>
+            <span asp-validation-for="Url"></span>
         </div>
-        <div class="p-2 flex-fill">
-            <input asp-for="Url" type="text" required class="form-control">
+        <div>
+            <button type="submit" class="btn btn-dark" asp-action="Index">Crawl</button>
         </div>
-        <div class="p-2">
-            <button type="submit" class="btn btn-dark">Submit</button>
-        </div>
-    </div>
-    <div asp-validation-summary="All"></div>
-</form>
+    </form>
+</div>

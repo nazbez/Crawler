@@ -2,10 +2,12 @@
 
 namespace Crawler.WebApplication.Models
 {
-    public class ResultModel
+    public class TestModel
     {
-        public int Id { get; set; }
         public string Url { get; set; }
-        public DateTime? SaveTime { get; set; }
+
+        public int Id { get; set; }
+
+        public DateTime SaveTime { get; set; }
     }
 }
