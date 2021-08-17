@@ -20,9 +20,15 @@ namespace Crawler.WebApplication.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var tests = _dbHandler.GetAllTests().Select(x => new TestModel() { Id = x.Id, Url = x.Url, SaveTime = (DateTime)x.SaveTime });
+            var tests = _dbHandler.GetAllTests()
+                .Select(x => new TestModel() 
+                { 
+                    Id = x.Id, 
+                    Url = x.Url, 
+                    SaveTime = x.SaveTime 
+                });
 
-            return View(new TestsViewModel() { Tests = tests});
+            return View(new TestsViewModel() { Tests = tests });
         }
 
         [HttpPost]
