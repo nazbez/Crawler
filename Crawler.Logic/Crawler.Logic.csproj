@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -8,11 +8,6 @@
     <PackageReference Include="HtmlAgilityPack" Version="1.11.34" />
     <PackageReference Include="UkadGroup.EfRepository" Version="1.0.1" />
     <PackageReference Include="UkadGroup.IRepository" Version="1.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Crawler.Models\Crawler.DbModels.csproj" />
-    <ProjectReference Include="..\Persistence\Crawler.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

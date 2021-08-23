@@ -6,7 +6,8 @@ using Microsoft.Extensions.Hosting;
 using Crawler.Logic.Extensions;
 using Crawler.Persistence;
 using Microsoft.EntityFrameworkCore;
-using Crawler.WebApplication.Services;
+using Crawler.WebApplication.Extensions;
+using Crawler.DbLogic.Extensions;
 
 namespace Crawler.WebApplication
 {
@@ -25,7 +26,8 @@ namespace Crawler.WebApplication
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddEfRepository<CrawlerDbContext>(options => options.UseSqlServer(connection));
             services.AddCrawlerLogicServices();
-            services.AddScoped<CrawlerService>();
+            services.AddDbHandler();
+            services.AddWebAppServices();
             services.AddControllersWithViews();
         }
 
@@ -36,13 +38,7 @@ namespace Crawler.WebApplication
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
-            app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseRouting();

@@ -18,7 +18,7 @@
 
     <div class="row mt-5 table-responsive d-flex">
         <h3 style="text-align:left">Response time testing</h3>
-        <table class="table table-bordered">
+        <table class="table table-bordered" id="testResults">
             <thead>
                 <tr>
                     <th scope="col">№</th>
@@ -41,50 +41,43 @@
 
     <div class="row mt-5 table-responsive d-flex">
         <h3 style="text-align:left">Links found only by HTML crawler</h3>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th scope="col">№</th>
-                    <th scope="col">Url</th>
-                </tr>
-            </thead>
-            <tbody>
-                @{
-                    i = 1;
-                }
-                @foreach (var obj in Model.OnlyInHtml)
-                {
-                    <tr>
-                        <th scope="row">@(i++)</th>
-                        <td>@obj</td>
-                    </tr>
-                }
-            </tbody>
+        <table id="onlyInHtml" class="table table-bordered">
+            @await Html.PartialAsync("_Table", Model.OnlyInHtml)
         </table>
     </div>
 
     <div class="row mt-5 table-responsive d-flex">
         <h3 style="text-align:left">Links found only by Sitemap crawler</h3>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th scope="col">№</th>
-                    <th scope="col">Url</th>
-                </tr>
-            </thead>
-            <tbody>
-                @{
-                    i = 1;
-                }
-                @foreach (var obj in Model.OnlyInSitemap)
-                {
-                    <tr>
-                        <th scope="row">@(i++)</th>
-                        <td>@obj</td>
-                    </tr>
-                }
-            </tbody>
+        <table id="onlyInSitemap" class="table table-bordered">
+            @await Html.PartialAsync("_Table", Model.OnlyInHtml)
         </table>
     </div>
 
-    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#testResults').DataTable({
+            searching: false,
+            ordering: false,
+            order: false,
+            "pageLength": 10
+        });
+    });
+    $(document).ready(function () {
+        $('#onlyInHtml').DataTable({
+            searching: false,
+            ordering: false,
+            order: false,
+            "pageLength": 10
+        });
+    });
+    $(document).ready(function () {
+        $('#onlyInSitemap').DataTable({
+            searching: false,
+            ordering: false,
+            order: false,
+            "pageLength": 10
+        });
+    });
+</script>

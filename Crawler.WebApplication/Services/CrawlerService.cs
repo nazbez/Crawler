@@ -1,4 +1,5 @@
 ﻿using Crawler.Logic;
+using Crawler.DbLogic;
 
 namespace Crawler.WebApplication.Services
 {

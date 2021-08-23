@@ -14,11 +14,12 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
+    <PackageReference Include="UkadGroup.IRepository" Version="1.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Crawler.Logic\Crawler.Logic.csproj" />
-    <ProjectReference Include="..\Crawler.Models\Crawler.DbModels.csproj" />
+    <ProjectReference Include="..\Crawler.Models\Crawler.DbLogic.csproj" />
     <ProjectReference Include="..\Persistence\Crawler.Persistence.csproj" />
   </ItemGroup>
 

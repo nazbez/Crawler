@@ -1,4 +1,4 @@
-﻿using Crawler.DbModels;
+﻿using Crawler.DbLogic.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

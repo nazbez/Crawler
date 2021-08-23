@@ -1,6 +1,7 @@
 ﻿using Crawler.Logic;
 using System;
 using System.Linq;
+using Crawler.DbLogic;
 
 namespace Crawler.ConsoleApplication
 {

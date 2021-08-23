@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Data;
-using Crawler.DbModels;
+using Crawler.DbLogic.Models;
 using Crawler.Logic.Models;
 
-namespace Crawler.Logic
+namespace Crawler.DbLogic
 {
     public class DbHandler
     {

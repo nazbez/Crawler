@@ -1,0 +1,31 @@
+﻿@model IEnumerable<string>
+@{
+    int i = 1;
+}
+
+    <thead>
+        <tr>
+            <th scope="col">№</th>
+            <th scope="col">Url</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var obj in Model)
+        {
+            <tr>
+                <th scope="row">@(i++)</th>
+                <td>@obj</td>
+            </tr>
+        }
+    </tbody>
+
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable({
+            searching: false,
+            ordering: false,
+            order: false,
+            "pageLength": 50
+        });
+    });
+</script>

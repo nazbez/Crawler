@@ -11,9 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crawler.Logic.Tests", "Craw
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crawler.Persistence", "Persistence\Crawler.Persistence.csproj", "{550E585B-F64C-4E26-B627-24F8B172D28A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crawler.DbModels", "Crawler.Models\Crawler.DbModels.csproj", "{75B3888F-E661-47FF-879F-BF99908A1F46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crawler.DbLogic", "Crawler.Models\Crawler.DbLogic.csproj", "{75B3888F-E661-47FF-879F-BF99908A1F46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crawler.WebApplication", "Crawler.WebApplication\Crawler.WebApplication.csproj", "{00E952E9-16B1-4FEE-BBD6-76A58126A91D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crawler.WebApplication", "Crawler.WebApplication\Crawler.WebApplication.csproj", "{00E952E9-16B1-4FEE-BBD6-76A58126A91D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

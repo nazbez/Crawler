@@ -7,7 +7,6 @@ namespace Crawler.Logic.Extensions
     {
         public static void AddCrawlerLogicServices(this IServiceCollection services)
         {
-            services.AddScoped<DbHandler>();
             services.AddScoped<Downloader>();
             services.AddScoped<Timer>();
             services.AddScoped<Validator>();
