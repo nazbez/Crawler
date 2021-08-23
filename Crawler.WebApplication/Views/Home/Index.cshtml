@@ -18,10 +18,13 @@
                 </tr>
             </thead>
             <tbody>
+                @{
+                    var i = 0;
+                }
                 @foreach (var obj in Model)
                 {
                     <tr>
-                        <th scope="row">@obj.Id</th>
+                        <th scope="row">@(i++)</th>
                         <td>@obj.Url</td>
                         <td>@obj.SaveTime</td>
                         <td><a asp-controller="Result" asp-action="Index" asp-route-id="@obj.Id">More info</a></td>
