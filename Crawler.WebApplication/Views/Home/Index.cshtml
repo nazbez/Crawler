@@ -1,4 +1,4 @@
-﻿@model TestsViewModel
+﻿@model IEnumerable<TestModel>
 @{
     ViewData["Title"] = "Tests";
 }
@@ -18,7 +18,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var obj in Model.Tests)
+                @foreach (var obj in Model)
                 {
                     <tr>
                         <th scope="row">@obj.Id</th>

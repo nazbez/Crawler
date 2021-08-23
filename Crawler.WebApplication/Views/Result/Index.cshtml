@@ -49,7 +49,7 @@
     <div class="row mt-5 table-responsive d-flex">
         <h3 style="text-align:left">Links found only by Sitemap crawler</h3>
         <table id="onlyInSitemap" class="table table-bordered">
-            @await Html.PartialAsync("_Table", Model.OnlyInHtml)
+            @await Html.PartialAsync("_Table", Model.OnlyInSitemap)
         </table>
     </div>
 
@@ -64,6 +64,7 @@
             "pageLength": 10
         });
     });
+
     $(document).ready(function () {
         $('#onlyInHtml').DataTable({
             searching: false,
@@ -72,6 +73,7 @@
             "pageLength": 10
         });
     });
+
     $(document).ready(function () {
         $('#onlyInSitemap').DataTable({
             searching: false,

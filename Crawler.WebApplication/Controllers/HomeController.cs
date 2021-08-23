@@ -2,15 +2,16 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using Crawler.WebApplication.Services;
+using System.Threading.Tasks;
 
 namespace Crawler.WebApplication.Controllers
 {
     public class HomeController : Controller
     {
         private readonly CrawlerService _crawlerService;
-        private readonly DbService _dbService;
+        private readonly DbMapper _dbService;
 
-        public HomeController(CrawlerService crawlerService, DbService dbService)
+        public HomeController(CrawlerService crawlerService, DbMapper dbService)
         {
             _crawlerService = crawlerService;
             _dbService = dbService;
@@ -25,11 +26,11 @@ namespace Crawler.WebApplication.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(UserInputModel input)
+        public async Task<IActionResult> Index(UserInputModel input)
         {
             try
             {
-                _crawlerService.Interract(input.Url);
+                await _crawlerService.InterractAsync(input.Url);
             }
             catch (ArgumentException err)
             {

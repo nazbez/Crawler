@@ -30,12 +30,12 @@ namespace Crawler.DbLogic
             return test.Id;
         }
 
-        public IQueryable<Test> GetAllTests()
+        public IEnumerable<Test> GetAllTests()
         {
             return _testRepository.GetAll();
         }
 
-        public IQueryable<TestResult> GetTestResultsByTestId(int id)
+        public IEnumerable<TestResult> GetTestResultsByTestId(int id)
         {
             return _testResultRepository
                              .GetAll()
@@ -43,7 +43,7 @@ namespace Crawler.DbLogic
                              .OrderBy(x => x.ResponseTime);
         }
 
-        public IQueryable<string> GetUrlsFoundOnlyInHtmlByTestId(int id)
+        public IEnumerable<string> GetUrlsFoundOnlyInHtmlByTestId(int id)
         {
             return _testResultRepository.GetAll()
                 .Where(x => x.TestId == id)
@@ -51,7 +51,7 @@ namespace Crawler.DbLogic
                 .Select(x => x.Url);
         }
 
-        public IQueryable<string> GetUrlsFoundOnlyInSitemapByTestId(int id)
+        public IEnumerable<string> GetUrlsFoundOnlyInSitemapByTestId(int id)
         {
             return _testResultRepository.GetAll()
                .Where(x => x.TestId == id)

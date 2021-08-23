@@ -43,8 +43,6 @@ namespace Crawler.WebApplication
 
             app.UseRouting();
 
-            app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

@@ -1,5 +1,6 @@
 ﻿using Crawler.Logic;
 using Crawler.DbLogic;
+using System.Threading.Tasks;
 
 namespace Crawler.WebApplication.Services
 {
@@ -14,7 +15,7 @@ namespace Crawler.WebApplication.Services
             _dbHandler = dbHandler;
         }
 
-        public void Interract(string url)
+        public async Task<int> InterractAsync(string url)
         {
             url = DeleteSlashAtTheEnd(url);
 
@@ -22,7 +23,7 @@ namespace Crawler.WebApplication.Services
 
             var responseTimeResults = _crawlerHandler.GetResponseTime(crawledLinks);
 
-            _dbHandler.SaveResultAsync(url, crawledLinks, responseTimeResults).Wait();
+            return await _dbHandler.SaveResultAsync(url, crawledLinks, responseTimeResults);
         }
 
         private string DeleteSlashAtTheEnd(string url)

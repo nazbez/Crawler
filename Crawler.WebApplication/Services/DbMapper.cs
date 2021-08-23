@@ -1,19 +1,20 @@
 ﻿using Crawler.DbLogic;
 using Crawler.WebApplication.Models;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Crawler.WebApplication.Services
 {
-    public class DbService
+    public class DbMapper
     {
         private readonly DbHandler _dbHandler;
 
-        public DbService(DbHandler dbHandler)
+        public DbMapper(DbHandler dbHandler)
         {
             _dbHandler = dbHandler;
         }
 
-        public TestsViewModel GetTests()
+        public IEnumerable<TestModel> GetTests()
         {
             var tests = _dbHandler.GetAllTests()
                 .Select(x => new TestModel() 
@@ -23,7 +24,7 @@ namespace Crawler.WebApplication.Services
                     SaveTime = x.SaveTime 
                 });
 
-            return new TestsViewModel { Tests = tests };
+            return tests;
         }
 
         public TestResultsViewModel GetTestResults(int id)
