@@ -2,7 +2,7 @@
 
 namespace Crawler.WebApplication.Models
 {
-    public class TestModel
+    public class TestViewModel
     {
         public string Url { get; set; }
 

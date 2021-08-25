@@ -14,10 +14,10 @@ namespace Crawler.WebApplication.Services
             _dbHandler = dbHandler;
         }
 
-        public IEnumerable<TestModel> GetTests()
+        public IEnumerable<TestViewModel> GetTests()
         {
             var tests = _dbHandler.GetAllTests()
-                .Select(x => new TestModel() 
+                .Select(x => new TestViewModel() 
                 { 
                     Id = x.Id, 
                     Url = x.Url, 
@@ -35,19 +35,15 @@ namespace Crawler.WebApplication.Services
                 .Select(x => new TestResultModel()
                 {
                     Url = x.Url,
-                    ResponseTime = x.ResponseTime
+                    ResponseTime = x.ResponseTime,
+                    InHtml = x.InHtml,
+                    InSitemap = x.InSitemap
                 });
-
-            var onlyInHtml = _dbHandler.GetUrlsFoundOnlyInHtmlByTestId(id);
-
-            var onlyInSitemap = _dbHandler.GetUrlsFoundOnlyInSitemapByTestId(id);
 
             return new TestResultsViewModel()
             {
                 Url = url,
-                TestResults = testResults,
-                OnlyInHtml = onlyInHtml,
-                OnlyInSitemap = onlyInSitemap
+                TestResults = testResults
             };
         }
 

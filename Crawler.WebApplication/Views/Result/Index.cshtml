@@ -42,14 +42,14 @@
     <div class="row mt-5 table-responsive d-flex">
         <h3 style="text-align:left">Links found only by HTML crawler</h3>
         <table id="onlyInHtml" class="table table-bordered">
-            @await Html.PartialAsync("_Table", Model.OnlyInHtml)
+            @await Html.PartialAsync("_Table", Model.TestResults.Where(x => x.InHtml && !x.InSitemap).Select(x => x.Url))
         </table>
     </div>
 
     <div class="row mt-5 table-responsive d-flex">
         <h3 style="text-align:left">Links found only by Sitemap crawler</h3>
         <table id="onlyInSitemap" class="table table-bordered">
-            @await Html.PartialAsync("_Table", Model.OnlyInSitemap)
+            @await Html.PartialAsync("_Table", Model.TestResults.Where(x => !x.InHtml && x.InSitemap).Select(x => x.Url))
         </table>
     </div>
 

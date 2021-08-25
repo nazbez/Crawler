@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Crawler.WebApplication.Models
 {
@@ -6,7 +9,5 @@ namespace Crawler.WebApplication.Models
     {
         public string Url { get; set; }
         public IEnumerable<TestResultModel> TestResults { get; set; }
-        public IEnumerable<string> OnlyInSitemap { get; set; }
-        public IEnumerable<string> OnlyInHtml { get; set; }
     }
 }

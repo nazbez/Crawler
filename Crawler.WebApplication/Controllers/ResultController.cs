@@ -5,18 +5,18 @@ namespace Crawler.WebApplication.Controllers
 {
     public class ResultController : Controller
     {
-        private readonly DbMapper _dbService;
+        private readonly DbMapper _dbMapper;
 
-        public ResultController(DbMapper dbService)
+        public ResultController(DbMapper dbMapper)
         {
-            _dbService = dbService;    
+            _dbMapper = dbMapper;    
         }
 
         public IActionResult Index(int id)
         {
-            var testResultsView = _dbService.GetTestResults(id);
+            var testResults = _dbMapper.GetTestResults(id);
 
-            return View(testResultsView);
+            return View(testResults);
         }
     }
 }

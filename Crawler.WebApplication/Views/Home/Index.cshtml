@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TestModel>
+﻿@model IEnumerable<TestViewModel>
 @{
     ViewData["Title"] = "Tests";
 }
@@ -19,7 +19,7 @@
             </thead>
             <tbody>
                 @{
-                    var i = 0;
+                    var i = 1;
                 }
                 @foreach (var obj in Model)
                 {
