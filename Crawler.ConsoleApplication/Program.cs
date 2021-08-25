@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Crawler.Persistence;
 using Crawler.Logic.Extensions;
 using Crawler.ConsoleApplication.Extensions;
-using Crawler.DbLogic.Extensions;
+using Crawler.Services.Extensions;
 
 namespace Crawler.ConsoleApplication
 {
@@ -26,7 +26,7 @@ namespace Crawler.ConsoleApplication
                 {
                     services.AddEfRepository<CrawlerDbContext>(options => options.UseSqlServer(@"Server=localhost;Database=CrawlerDB;Trusted_Connection=True"));
                     services.AddCrawlerLogicServices();
-                    services.AddDbHandler();
+                    services.AddLogicServices();
                     services.AddConsoleApplicationServices();
                 }).ConfigureLogging(options => options.SetMinimumLevel(LogLevel.Error));
     }

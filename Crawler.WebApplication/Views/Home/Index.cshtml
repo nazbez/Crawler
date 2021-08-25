@@ -19,7 +19,7 @@
             </thead>
             <tbody>
                 @{
-                    var i = 1;
+                    var i = (int)ViewData["NumberPage"] * 10 - 9;
                 }
                 @foreach (var obj in Model)
                 {
@@ -32,17 +32,24 @@
                 }
             </tbody>
         </table>
+
+        <nav aria-label="Page navigation example" style="margin:auto">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" asp-controller="Home" asp-action="GetPreviousPage" asp-route-numberPage="@ViewData["NumberPage"]" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" asp-controller="Home" asp-action="GetNextPage" asp-route-numberPage="@ViewData["NumberPage"]" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            </ul>
+            <h4>@ViewData["NumberPage"] of @(Math.Ceiling((double)((IEnumerable<TestViewModel>)ViewData["AllTests"]).Count() / 10))</h4>
+        </nav>
     </div>
 </div>
-
-<script>
-    $(document).ready(function () {
-        $('#testsTable').DataTable({
-            searching: false,
-            ordering: false,
-            order: false,
-            "pageLength": 50
-        });
-    });
-</script>
 

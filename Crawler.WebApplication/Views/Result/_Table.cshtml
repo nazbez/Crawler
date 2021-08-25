@@ -2,20 +2,19 @@
 @{
     int i = 1;
 }
-
-    <thead>
+<thead>
+    <tr>
+       <th scope="col">№</th>
+       <th scope="col">Url</th>
+    </tr>
+</thead>
+<tbody>
+    @foreach (var obj in Model)
+     {
         <tr>
-            <th scope="col">№</th>
-            <th scope="col">Url</th>
+            <th scope="row">@(i++)</th>
+            <td>@obj</td>
         </tr>
-    </thead>
-    <tbody>
-        @foreach (var obj in Model)
-        {
-            <tr>
-                <th scope="row">@(i++)</th>
-                <td>@obj</td>
-            </tr>
-        }
-    </tbody>
+     }
+</tbody>
 
