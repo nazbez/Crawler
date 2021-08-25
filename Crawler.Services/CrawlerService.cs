@@ -1,8 +1,7 @@
 ﻿using Crawler.Logic;
-using Crawler.DbLogic;
 using System.Threading.Tasks;
 
-namespace Crawler.WebApplication.Services
+namespace Crawler.Services
 {
     public class CrawlerService
     {

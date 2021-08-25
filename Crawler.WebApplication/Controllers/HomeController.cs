@@ -3,24 +3,25 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using Crawler.WebApplication.Services;
 using System.Threading.Tasks;
+using Crawler.Services;
 
 namespace Crawler.WebApplication.Controllers
 {
     public class HomeController : Controller
     {
         private readonly CrawlerService _crawlerService;
-        private readonly DbMapper _dbService;
+        private readonly DbMapper _dbMapper;
 
-        public HomeController(CrawlerService crawlerService, DbMapper dbService)
+        public HomeController(CrawlerService crawlerService, DbMapper dbMapper)
         {
             _crawlerService = crawlerService;
-            _dbService = dbService;
+            _dbMapper = dbMapper;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            var testsView = _dbService.GetTests();
+            var testsView = _dbMapper.GetTests();
 
             return View(testsView);
         }

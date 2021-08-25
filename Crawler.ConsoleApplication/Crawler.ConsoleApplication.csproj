@@ -19,7 +19,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Crawler.Logic\Crawler.Logic.csproj" />
-    <ProjectReference Include="..\Crawler.Models\Crawler.DbLogic.csproj" />
     <ProjectReference Include="..\Persistence\Crawler.Persistence.csproj" />
   </ItemGroup>
 

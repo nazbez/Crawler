@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Crawler.DbLogic.Models;
+using Crawler.DbModels;
 using System.Data;
 using System.Reflection;
 

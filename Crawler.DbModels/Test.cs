@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Crawler.DbLogic.Models
+namespace Crawler.DbModels
 {
     public class Test
     {

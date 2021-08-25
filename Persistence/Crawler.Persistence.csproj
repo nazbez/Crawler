@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Crawler.Models\Crawler.DbLogic.csproj" />
+    <ProjectReference Include="..\Crawler.DbModels\Crawler.DbModels.csproj" />
   </ItemGroup>
 
 </Project>

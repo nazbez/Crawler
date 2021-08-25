@@ -7,7 +7,7 @@ using Crawler.Logic.Extensions;
 using Crawler.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Crawler.WebApplication.Extensions;
-using Crawler.DbLogic.Extensions;
+using Crawler.Services.Extensions;
 
 namespace Crawler.WebApplication
 {
@@ -26,7 +26,7 @@ namespace Crawler.WebApplication
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddEfRepository<CrawlerDbContext>(options => options.UseSqlServer(connection));
             services.AddCrawlerLogicServices();
-            services.AddDbHandler();
+            services.AddLogicServices();
             services.AddWebAppServices();
             services.AddControllersWithViews();
         }
