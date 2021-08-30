@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Crawler.Services.Models.RequestModels;
 using Crawler.Services.Exceptions;
@@ -34,13 +33,13 @@ namespace Crawler.Services
 
         public TestResultsModel GetTestResults(int id)
         {
-            string url = _dbHandler.GetTestById(id).Url;
+            string url = _dbHandler.GetTestById(id)?.Url ?? "";
 
-            if (url == null)
+            if (url == "")
             {
-                throw new NullReferenceException("There is no such id in data base");
+                return null; 
             }
-
+            
             var results = _dbHandler.GetTestResultsByTestId(id)
                 .Select(x => new ResultModel
                 {

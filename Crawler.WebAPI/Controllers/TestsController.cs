@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Crawler.Services.Models;
 using Crawler.Services;
 using Crawler.Services.Models.RequestModels;
 using Crawler.Services.Models.ResponseModels;
@@ -22,7 +21,7 @@ namespace Crawler.WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> PostTest([FromBody] UserInputModel userInput)
+        public async Task<ActionResult<int>> PostTest(UserInputModel userInput)
         {
             if (userInput == null)
             {
