@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Crawler.Services.Models.RequestModels;
 using Crawler.Services.Exceptions;
 using Crawler.Services.Models.ResponseModels;
+using Crawler.Services.Extensions;
 
 namespace Crawler.Services
 {
@@ -56,15 +57,20 @@ namespace Crawler.Services
             };
         }
 
-        public IEnumerable<TestModel> GetTests()
+        public TestsPageModel GetTests(int page = 1 , int pageSize = 10)
         {
-            return _dbHandler.GetAllTests()
+            var testResults =  _dbHandler.GetAllTests()
+                .Paginate(page, pageSize)
                 .Select(x => new TestModel()
                 {
                     Url = x.Url,
                     Id = x.Id,
                     SaveTime = x.SaveTime
                 });
+
+            PageInfoModel pageInfo = new PageInfoModel { PageNumber = page, PageSize = pageSize, TotalItems = _dbHandler.GetAllTests().Count() };
+
+            return new TestsPageModel() { Tests = testResults, PageInfo = pageInfo };
         }
     }
 }

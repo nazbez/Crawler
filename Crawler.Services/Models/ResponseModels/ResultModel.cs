@@ -1,5 +1,4 @@
-﻿
-namespace Crawler.Services.Models.ResponseModels
+﻿namespace Crawler.Services.Models.ResponseModels
 {
     public class ResultModel
     {

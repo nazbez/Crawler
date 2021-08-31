@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Crawler.Services;
 using Crawler.Services.Models.RequestModels;
 using Crawler.Services.Models.ResponseModels;
+using System;
 
 namespace Crawler.WebAPI.Controllers
 {
@@ -25,22 +22,30 @@ namespace Crawler.WebAPI.Controllers
         {
             if (userInput == null)
             {
-                return BadRequest();
+                return BadRequest("Input is null");
             }
 
-            return await _testService.CreateTestAsync(userInput);
+            try
+            {
+                return await _testService.CreateTestAsync(userInput);
+            }
+            catch (Exception err)
+            {
+                return BadRequest(err.Message);
+            }
+
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<TestModel>> GetTests()
+        public ActionResult<TestsPageModel> GetTests([FromQuery] PageParameters pageParameters)
         {
-            var tests = _testService.GetTests();
+            var tests = _testService.GetTests(pageParameters.PageNumber, pageParameters.PageSize);
 
-            return tests.ToList();
+            return tests;
         }
 
         [HttpGet("{id}")]
-        public ActionResult<TestResultsModel> GetTests(int id)
+        public ActionResult<TestResultsModel> GetTestResults(int id)
         {
             return _testService.GetTestResults(id);
         }
