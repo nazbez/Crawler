@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crawler.Services", "Crawler
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crawler.DbModels", "Crawler.DbModels\Crawler.DbModels.csproj", "{B4F9F3C8-384D-44C3-B0B8-4C5FDD71EF78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crawler.WebAPI", "Crawler.WebAPI\Crawler.WebAPI.csproj", "{7E460879-A0CD-4080-ADBA-BD3FD6FD86FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crawler.WebAPI", "Crawler.WebAPI\Crawler.WebAPI.csproj", "{7E460879-A0CD-4080-ADBA-BD3FD6FD86FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
