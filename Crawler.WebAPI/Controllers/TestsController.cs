@@ -20,7 +20,7 @@ namespace Crawler.WebAPI.Controllers
         /// <summary>
         /// Get a collection of tests filtered by pagination
         /// </summary>
-        /// <param name="pageParameters"></param>
+        /// <param name="pageParameters">Values of page size and page number</param>
         /// <returns>Collection of tests and info about the page</returns>
         [HttpGet]
         public ActionResult<TestsPageModel> GetTests([FromQuery] PageParameters pageParameters)
@@ -33,7 +33,7 @@ namespace Crawler.WebAPI.Controllers
         /// <summary>
         /// Get test results by test id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Item id which results needed</param>
         /// <returns>Collection with results and tested url</returns>
         [HttpGet("{id}")]
         public ActionResult<TestResultsModel> GetTestResults(int id)
@@ -51,7 +51,7 @@ namespace Crawler.WebAPI.Controllers
         /// <summary>
         /// Create a new test
         /// </summary>
-        /// <param name="userInput"></param>
+        /// <param name="userInput">Url input</param>
         /// <returns>The created test id</returns>
         [HttpPost]
         public async Task<ActionResult<int>> PostTest(UserInputModel userInput)
