@@ -47,7 +47,7 @@ namespace Crawler.ConsoleApplication
         {
             Console.WriteLine("\nAll links with their time of response\n");
 
-            ConsoleTable table = new ConsoleTable("Number", "Url", "Time");
+            ConsoleTable table = new("Number", "Url", "Time");
 
             int count = 1;
 

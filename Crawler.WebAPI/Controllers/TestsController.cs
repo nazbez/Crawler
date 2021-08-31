@@ -17,6 +17,42 @@ namespace Crawler.WebAPI.Controllers
             _testService = testService;
         }
 
+        /// <summary>
+        /// Get a collection of tests filtered by pagination
+        /// </summary>
+        /// <param name="pageParameters"></param>
+        /// <returns>Collection of tests and info about the page</returns>
+        [HttpGet]
+        public ActionResult<TestsPageModel> GetTests([FromQuery] PageParameters pageParameters)
+        {
+            var tests = _testService.GetTests(pageParameters.PageNumber, pageParameters.PageSize);
+
+            return tests;
+        }
+
+        /// <summary>
+        /// Get test results by test id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Collection with results and tested url</returns>
+        [HttpGet("{id}")]
+        public ActionResult<TestResultsModel> GetTestResults(int id)
+        {
+            try
+            {
+                return _testService.GetTestResults(id);
+            }
+            catch (CrawlerApiException err)
+            {
+                return BadRequest(err.Message);
+            }
+        }
+
+        /// <summary>
+        /// Create a new test
+        /// </summary>
+        /// <param name="userInput"></param>
+        /// <returns>The created test id</returns>
         [HttpPost]
         public async Task<ActionResult<int>> PostTest(UserInputModel userInput)
         {
@@ -28,28 +64,6 @@ namespace Crawler.WebAPI.Controllers
             try
             {
                 return await _testService.CreateTestAsync(userInput);
-            }
-            catch (CrawlerApiException err)
-            {
-                return BadRequest(err.Message);
-            }
-
-        }
-
-        [HttpGet]
-        public ActionResult<TestsPageModel> GetTests([FromQuery] PageParameters pageParameters)
-        {
-            var tests = _testService.GetTests(pageParameters.PageNumber, pageParameters.PageSize);
-
-            return tests;
-        }
-
-        [HttpGet("{id}")]
-        public ActionResult<TestResultsModel> GetTestResults(int id)
-        {
-            try
-            {
-                return _testService.GetTestResults(id);
             }
             catch (CrawlerApiException err)
             {

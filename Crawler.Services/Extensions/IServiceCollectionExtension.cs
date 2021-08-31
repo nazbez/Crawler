@@ -8,6 +8,7 @@ namespace Crawler.Services.Extensions
         {
             services.AddScoped<DbHandler>();
             services.AddScoped<CrawlerService>();
+            services.AddScoped<TestService>();
         }
     }
 }

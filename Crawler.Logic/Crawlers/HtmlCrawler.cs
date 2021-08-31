@@ -19,7 +19,7 @@ namespace Crawler.Logic
 			List<string> result = new List<string>();
 			List<string> queueOfUrls = new List<string>() { adress };
 
-			while (queueOfUrls.Count() != 0)
+			while (queueOfUrls.Count != 0)
             {
 				string currentUrl = queueOfUrls.First();
 

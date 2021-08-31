@@ -1,11 +1,16 @@
-﻿namespace Crawler.Services.Models.RequestModels
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Crawler.Services.Models.RequestModels
 {
     public class PageParameters
     {
-		const int maxPageSize = 50;
+		const int maxPageSize = 100;
+		[Range(1, int.MaxValue)]
 		public int PageNumber { get; set; } = 1;
 
 		private int pageSize = 10;
+
+		[Range(1, maxPageSize)]
 		public int PageSize
 		{
 			get
