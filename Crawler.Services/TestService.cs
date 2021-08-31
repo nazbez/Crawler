@@ -38,7 +38,7 @@ namespace Crawler.Services
 
             if (url == "")
             {
-                return null; 
+                throw new CrawlerApiException("There is no such id");
             }
             
             var results = _dbHandler.GetTestResultsByTestId(id)

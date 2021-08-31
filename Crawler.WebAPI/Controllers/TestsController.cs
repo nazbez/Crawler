@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Crawler.Services;
 using Crawler.Services.Models.RequestModels;
 using Crawler.Services.Models.ResponseModels;
-using System;
+using Crawler.Services.Exceptions;
 
 namespace Crawler.WebAPI.Controllers
 {
@@ -29,7 +29,7 @@ namespace Crawler.WebAPI.Controllers
             {
                 return await _testService.CreateTestAsync(userInput);
             }
-            catch (Exception err)
+            catch (CrawlerApiException err)
             {
                 return BadRequest(err.Message);
             }
@@ -47,7 +47,14 @@ namespace Crawler.WebAPI.Controllers
         [HttpGet("{id}")]
         public ActionResult<TestResultsModel> GetTestResults(int id)
         {
-            return _testService.GetTestResults(id);
+            try
+            {
+                return _testService.GetTestResults(id);
+            }
+            catch (CrawlerApiException err)
+            {
+                return BadRequest(err.Message);
+            }
         }
     }
 }
