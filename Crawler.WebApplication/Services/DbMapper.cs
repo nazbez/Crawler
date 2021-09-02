@@ -1,4 +1,4 @@
-﻿using Crawler.Services;
+﻿using Crawler.Services.Models.ResponseModels;
 using Crawler.WebApplication.Models;
 using System.Linq;
 using System.Collections.Generic;
@@ -7,31 +7,23 @@ namespace Crawler.WebApplication.Services
 {
     public class DbMapper
     {
-        private readonly DbHandler _dbHandler;
-
-        public DbMapper(DbHandler dbHandler)
+        public IEnumerable<TestViewModel> MapTests(TestsModel testsModel)
         {
-            _dbHandler = dbHandler;
-        }
-
-        public IEnumerable<TestViewModel> GetTests()
-        {
-            var tests = _dbHandler.GetAllTests()
-                .Select(x => new TestViewModel() 
-                { 
-                    Id = x.Id, 
-                    Url = x.Url, 
-                    SaveTime = x.SaveTime 
-                });
+            var tests = testsModel.Tests.Select(x => new TestViewModel()
+            {
+                Id = x.Id,
+                Url = x.Url,
+                SaveTime = x.SaveTime
+            });
 
             return tests;
         }
 
-        public TestResultsViewModel GetTestResults(int id)
+        public TestResultsViewModel MapTestResults(TestResultsModel testResultsModel)
         {
-            var url = _dbHandler.GetUrlByTestId(id);
+            var url = testResultsModel.Url;
 
-            var testResults = _dbHandler.GetTestResultsByTestId(id)
+            var testResults = testResultsModel.Results
                 .Select(x => new TestResultModel()
                 {
                     Url = x.Url,
@@ -46,6 +38,5 @@ namespace Crawler.WebApplication.Services
                 TestResults = testResults
             };
         }
-
     }
 }

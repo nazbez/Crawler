@@ -5,6 +5,8 @@ using Crawler.Services.Models.RequestModels;
 using Crawler.Services.Exceptions;
 using Crawler.Services.Models.ResponseModels;
 using Crawler.Services.Extensions;
+using Crawler.DbModels;
+using System.Collections.Generic;
 
 namespace Crawler.Services
 {
@@ -19,11 +21,11 @@ namespace Crawler.Services
             _dbHandler = dbHandler;
         }
 
-        public async Task<int> CreateTestAsync(UserInputModel userInput)
+        public async Task<int> CreateTestAsync(string url)
         {
             try
             {
-                return await _crawlerService.InterractAsync(userInput.Url);
+                return await _crawlerService.InterractAsync(url);
             }
             catch (Exception err)
             {
@@ -39,37 +41,29 @@ namespace Crawler.Services
             {
                 throw new CrawlerApiException("There is no such id");
             }
-            
-            var results = _dbHandler.GetTestResultsByTestId(id)
-                .Select(x => new ResultModel
-                {
-                    Url = x.Url,
-                    InHtml = x.InHtml,
-                    InSitemap = x.InSitemap,
-                    ResponseTime = x.ResponseTime
-                });
 
-            return new TestResultsModel
+            return new TestResultsModel()
             {
                 Url = url,
-                Results = results
+                Results = _dbHandler.GetTestResultsByTestId(id)
             };
+                
         }
 
-        public TestsPageModel GetTests(int page = 1 , int pageSize = 10)
+        public TestsModel GetTests(int page = 1 , int pageSize = 10)
         {
-            var testResults =  _dbHandler.GetAllTests()
-                .Paginate(page, pageSize)
-                .Select(x => new TestModel()
-                {
-                    Url = x.Url,
-                    Id = x.Id,
-                    SaveTime = x.SaveTime
-                });
+            if (page < 1)
+            {
+                page = 1;
+            }
+
+            var testResults = _dbHandler.GetAllTests()
+                .Paginate(page, pageSize);
+                
 
             PageInfoModel pageInfo = new PageInfoModel { PageNumber = page, PageSize = pageSize, TotalItems = _dbHandler.GetAllTests().Count() };
 
-            return new TestsPageModel() { Tests = testResults, PageInfo = pageInfo };
+            return new TestsModel() { Tests = testResults, PageInfo = pageInfo };
         }
     }
 }

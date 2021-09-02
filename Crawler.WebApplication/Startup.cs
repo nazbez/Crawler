@@ -47,7 +47,7 @@ namespace Crawler.WebApplication
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{numberPage?}");
+                    pattern: "{controller=Home}/{action=Index}/{pageNumber?}");
             });
         }
     }

@@ -43,22 +43,6 @@ namespace Crawler.Services
                              .OrderBy(x => x.ResponseTime);
         }
 
-        public IEnumerable<string> GetUrlsFoundOnlyInHtmlByTestId(int id)
-        {
-            return _testResultRepository.GetAll()
-                .Where(x => x.TestId == id)
-                .Where(x => !x.InSitemap && x.InHtml)
-                .Select(x => x.Url);
-        }
-
-        public IEnumerable<string> GetUrlsFoundOnlyInSitemapByTestId(int id)
-        {
-            return _testResultRepository.GetAll()
-               .Where(x => x.TestId == id)
-               .Where(x => x.InSitemap && !x.InHtml)
-               .Select(x => x.Url);
-        }
-
         public string GetUrlByTestId(int id)
         {
             return _testRepository.GetById(id).Url;

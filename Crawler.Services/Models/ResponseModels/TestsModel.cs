@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-
+using Crawler.DbModels;
 
 namespace Crawler.Services.Models.ResponseModels
 {
-    public class TestsPageModel
+    public class TestsModel
     {
-        public IEnumerable<TestModel> Tests { get; set; }
+        public IEnumerable<Test> Tests { get; set; }
         public PageInfoModel PageInfo { get; set; }
     }
 }
