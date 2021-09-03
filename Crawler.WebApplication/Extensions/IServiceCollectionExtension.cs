@@ -7,7 +7,7 @@ namespace Crawler.WebApplication.Extensions
     {
         public static void AddWebAppServices(this IServiceCollection services)
         {
-            services.AddScoped<DbMapper>();
+            services.AddScoped<Mapper>();
         }
     }
 }

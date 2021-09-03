@@ -5,9 +5,9 @@ using System.Collections.Generic;
 
 namespace Crawler.WebApplication.Services
 {
-    public class DbMapper
+    public class Mapper
     {
-        public IEnumerable<TestViewModel> MapTests(TestsModel testsModel)
+        public IEnumerable<TestViewModel> MapTests(TestsServiceModel testsModel)
         {
             var tests = testsModel.Tests.Select(x => new TestViewModel()
             {
@@ -19,7 +19,7 @@ namespace Crawler.WebApplication.Services
             return tests;
         }
 
-        public TestResultsViewModel MapTestResults(TestResultsModel testResultsModel)
+        public TestResultsViewModel MapTestResults(TestResultsServiceModel testResultsModel)
         {
             var url = testResultsModel.Url;
 

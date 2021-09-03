@@ -8,6 +8,7 @@ using Crawler.Services.Extensions;
 using Crawler.Logic.Extensions;
 using Crawler.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Crawler.WebAPI.Services;
 
 namespace Crawler.WebAPI
 {
@@ -26,6 +27,7 @@ namespace Crawler.WebAPI
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddEfRepository<CrawlerDbContext>(options => options.UseSqlServer(connection));
             services.AddCrawlerLogicServices();
+            services.AddScoped<Mapper>();
             services.AddLogicServices();
             services.AddControllers();
             services.AddSwaggerGen(c =>

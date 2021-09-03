@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Crawler.Services.Models.RequestModels
+namespace Crawler.WebAPI.Models
 {
     public class PageParameters
     {

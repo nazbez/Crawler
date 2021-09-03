@@ -6,10 +6,10 @@ namespace Crawler.WebApplication.Controllers
 {
     public class ResultController : Controller
     {
-        private readonly DbMapper _dbMapper;
+        private readonly Mapper _dbMapper;
         private readonly TestService _testService;
 
-        public ResultController(DbMapper dbMapper, TestService testService)
+        public ResultController(Mapper dbMapper, TestService testService)
         {
             _dbMapper = dbMapper;
             _testService = testService;

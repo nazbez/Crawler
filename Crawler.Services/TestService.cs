@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Crawler.Services.Models.RequestModels;
 using Crawler.Services.Exceptions;
 using Crawler.Services.Models.ResponseModels;
 using Crawler.Services.Extensions;
-using Crawler.DbModels;
-using System.Collections.Generic;
 
 namespace Crawler.Services
 {
@@ -33,7 +30,7 @@ namespace Crawler.Services
             }
         }
 
-        public TestResultsModel GetTestResults(int id)
+        public TestResultsServiceModel GetTestResults(int id)
         {
             string url = _dbHandler.GetTestById(id)?.Url ?? "";
 
@@ -42,7 +39,7 @@ namespace Crawler.Services
                 throw new CrawlerApiException("There is no such id");
             }
 
-            return new TestResultsModel()
+            return new TestResultsServiceModel()
             {
                 Url = url,
                 Results = _dbHandler.GetTestResultsByTestId(id)
@@ -50,7 +47,7 @@ namespace Crawler.Services
                 
         }
 
-        public TestsModel GetTests(int page = 1 , int pageSize = 10)
+        public TestsServiceModel GetTests(int page = 1 , int pageSize = 10)
         {
             if (page < 1)
             {
@@ -63,7 +60,7 @@ namespace Crawler.Services
 
             PageInfoModel pageInfo = new PageInfoModel { PageNumber = page, PageSize = pageSize, TotalItems = _dbHandler.GetAllTests().Count() };
 
-            return new TestsModel() { Tests = testResults, PageInfo = pageInfo };
+            return new TestsServiceModel() { Tests = testResults, PageInfo = pageInfo };
         }
     }
 }

@@ -10,12 +10,12 @@ namespace Crawler.WebApplication.Controllers
     public class HomeController : Controller
     {
         private readonly TestService _testService;
-        private readonly DbMapper _dbMapper;
+        private readonly Mapper _mapper;
 
-        public HomeController(TestService testService, DbMapper dbMapper)
+        public HomeController(TestService testService, Mapper mapper)
         {
             _testService = testService;
-            _dbMapper = dbMapper;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -27,7 +27,7 @@ namespace Crawler.WebApplication.Controllers
             ViewData["PageSize"] = test.PageInfo.PageSize;
             ViewData["AllPages"] = test.PageInfo.TotalPages;
 
-            return View(_dbMapper.MapTests(test));
+            return View(_mapper.MapTests(test));
         }
         
         [HttpPost]
