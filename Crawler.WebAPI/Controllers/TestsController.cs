@@ -46,7 +46,7 @@ namespace Crawler.WebAPI.Controllers
             }
             catch (CrawlerApiException err)
             {
-                return BadRequest(err.Message);
+                return BadRequest(new { Error = err.Message });
             }
         }
 
@@ -56,20 +56,20 @@ namespace Crawler.WebAPI.Controllers
         /// <param name="userInput">Url input</param>
         /// <returns>The created test id</returns>
         [HttpPost]
-        public async Task<ActionResult<int>> PostTest(UserInputModel userInput)
+        public async Task<ActionResult<ResponseModel>> PostTest(UserInputModel userInput)
         {
             if (userInput == null)
             {
-                return BadRequest("Input is null");
+                return new ResponseModel { Error = "Input is cannot be null"};
             }
 
             try
             {
-                return await _testService.CreateTestAsync(userInput.Url);
+                return new ResponseModel { Object = await _testService.CreateTestAsync(userInput.Url) };
             }
             catch (CrawlerApiException err)
             {
-                return BadRequest(err.Message);
+                return new ResponseModel { Error = err.Message };
             }
         }
     }
