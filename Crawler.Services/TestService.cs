@@ -32,19 +32,19 @@ namespace Crawler.Services
 
         public TestResultsServiceModel GetTestResults(int id)
         {
-            string url = _dbHandler.GetTestById(id)?.Url ?? "";
+             string url = _dbHandler.GetTestById(id)?.Url ?? "";
 
-            if (url == "")
-            {
-                throw new CrawlerApiException("There is no such id");
-            }
+             if (url == "")
+             {
+                throw new Exception("There is no such id");
+             }
 
-            return new TestResultsServiceModel()
-            {
-                Url = url,
-                Results = _dbHandler.GetTestResultsByTestId(id)
-            };
-                
+             return new TestResultsServiceModel()
+             {
+                 Url = url,
+                 Results = _dbHandler.GetTestResultsByTestId(id)
+             };
+
         }
 
         public TestsServiceModel GetTests(int page = 1 , int pageSize = 10)

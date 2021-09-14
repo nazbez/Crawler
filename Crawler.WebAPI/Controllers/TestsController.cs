@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Crawler.Services;
-using Crawler.Services.Exceptions;
 using Crawler.WebAPI.Models;
 using Crawler.WebAPI.Services;
 
@@ -25,11 +24,11 @@ namespace Crawler.WebAPI.Controllers
         /// <param name="pageParameters">Values of page size and page number</param>
         /// <returns>Collection of tests and info about the page</returns>
         [HttpGet]
-        public ActionResult<TestApiModel> GetTests([FromQuery] PageParameters pageParameters)
+        public ActionResult<ResponseModel> GetTests([FromQuery] PageParameters pageParameters)
         {
             var tests = _testService.GetTests(pageParameters.PageNumber, pageParameters.PageSize);
 
-            return _mapper.MapTests(tests);
+            return new ResponseModel { Object = _mapper.MapTests(tests) };
         }
 
         /// <summary>
@@ -38,16 +37,9 @@ namespace Crawler.WebAPI.Controllers
         /// <param name="id">Item id which results needed</param>
         /// <returns>Collection with results and tested url</returns>
         [HttpGet("{id}")]
-        public ActionResult<TestResultsApiModel> GetTestResults(int id)
+        public ActionResult<ResponseModel> GetTestResults(int id)
         {
-            try
-            {
-                return _mapper.MapTestResults(_testService.GetTestResults(id));
-            }
-            catch (CrawlerApiException err)
-            {
-                return BadRequest(new { Error = err.Message });
-            }
+            return new ResponseModel { Object = _mapper.MapTestResults(_testService.GetTestResults(id)) };
         }
 
         /// <summary>
@@ -60,17 +52,10 @@ namespace Crawler.WebAPI.Controllers
         {
             if (userInput == null)
             {
-                return new ResponseModel { Error = "Input is cannot be null"};
+                return BadRequest();
             }
 
-            try
-            {
-                return new ResponseModel { Object = await _testService.CreateTestAsync(userInput.Url) };
-            }
-            catch (CrawlerApiException err)
-            {
-                return new ResponseModel { Error = err.Message };
-            }
+            return new ResponseModel { Object = await _testService.CreateTestAsync(userInput.Url) };
         }
     }
 }

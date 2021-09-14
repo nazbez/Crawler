@@ -9,6 +9,7 @@ using Crawler.Logic.Extensions;
 using Crawler.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Crawler.WebAPI.Services;
+using Crawler.WebAPI.Middleware;
 
 namespace Crawler.WebAPI
 {
@@ -45,6 +46,8 @@ namespace Crawler.WebAPI
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Crawler.WebAPI v1"));
             }
+
+            app.UseMiddleware<ErrorHandlerMiddleware>();
 
             app.UseHttpsRedirection();
 
