@@ -6,7 +6,6 @@ namespace Crawler.Services.Extensions
     {
         public static void AddLogicServices(this IServiceCollection services)
         {
-            services.AddScoped<DbHandler>();
             services.AddScoped<CrawlerService>();
             services.AddScoped<TestService>();
         }

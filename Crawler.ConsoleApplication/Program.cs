@@ -1,12 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Crawler.ConsoleApplication.Extensions;
+using Crawler.Logic.Extensions;
+using Crawler.Persistence;
+using Crawler.Services.Extensions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
-using Crawler.Persistence;
-using Crawler.Logic.Extensions;
-using Crawler.ConsoleApplication.Extensions;
-using Crawler.Services.Extensions;
 
 namespace Crawler.ConsoleApplication
 {

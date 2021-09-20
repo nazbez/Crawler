@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Crawler.WebApplication.Services;
+﻿using Crawler.WebApplication.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Crawler.WebApplication.Extensions
 {

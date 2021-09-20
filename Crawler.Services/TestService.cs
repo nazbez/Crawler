@@ -1,21 +1,25 @@
-﻿using System;
+﻿using Crawler.DbModels;
+using Crawler.Services.Exceptions;
+using Crawler.Services.Extensions;
+using Crawler.Services.Models.ResponseModels;
+using System;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using Crawler.Services.Exceptions;
-using Crawler.Services.Models.ResponseModels;
-using Crawler.Services.Extensions;
 
 namespace Crawler.Services
 {
     public class TestService
     {
         private readonly CrawlerService _crawlerService;
-        private readonly DbHandler _dbHandler;
+        private readonly IRepository<Test> _testRepository;
+        private readonly IRepository<TestResult> _testResultRepository;
 
-        public TestService(CrawlerService crawlerService, DbHandler dbHandler)
+        public TestService(CrawlerService crawlerService, IRepository<Test> testRepository, IRepository<TestResult> testResultRepository)
         {
             _crawlerService = crawlerService;
-            _dbHandler = dbHandler;
+            _testRepository = testRepository;
+            _testResultRepository = testResultRepository;
         }
 
         public async Task<int> CreateTestAsync(string url)
@@ -32,7 +36,7 @@ namespace Crawler.Services
 
         public TestResultsServiceModel GetTestResults(int id)
         {
-             string url = _dbHandler.GetTestById(id)?.Url ?? "";
+             string url = _testRepository.GetById(id)?.Url ?? "";
 
              if (url == "")
              {
@@ -42,7 +46,10 @@ namespace Crawler.Services
              return new TestResultsServiceModel()
              {
                  Url = url,
-                 Results = _dbHandler.GetTestResultsByTestId(id)
+                 Results = _testResultRepository
+                             .GetAll()
+                             .Where(x => x.TestId == id)
+                             .OrderBy(x => x.ResponseTime)
              };
 
         }
@@ -54,11 +61,11 @@ namespace Crawler.Services
                 page = 1;
             }
 
-            var testResults = _dbHandler.GetAllTests()
+            var testResults = _testRepository.GetAll()
                 .Paginate(page, pageSize);
                 
 
-            PageInfoModel pageInfo = new PageInfoModel { PageNumber = page, PageSize = pageSize, TotalItems = _dbHandler.GetAllTests().Count() };
+            PageInfoModel pageInfo = new PageInfoModel { PageNumber = page, PageSize = pageSize, TotalItems = _testRepository.GetAll().Count() };
 
             return new TestsServiceModel() { Tests = testResults, PageInfo = pageInfo };
         }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Xml;
 using System.Linq;
+using System.Xml;
 
 namespace Crawler.Logic.Parsers
 {

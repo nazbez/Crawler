@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using Crawler.Services;
+﻿using Crawler.Services;
 using Crawler.WebApplication.Models;
 using Crawler.WebApplication.Services;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 
 namespace Crawler.WebApplication.Controllers

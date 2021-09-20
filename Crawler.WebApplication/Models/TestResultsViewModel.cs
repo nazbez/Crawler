@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 
-
 namespace Crawler.WebApplication.Models
 {
     public class TestResultsViewModel

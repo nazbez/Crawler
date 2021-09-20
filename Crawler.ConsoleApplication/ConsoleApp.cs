@@ -1,7 +1,7 @@
 ﻿using Crawler.Logic;
+using Crawler.Services;
 using System;
 using System.Linq;
-using Crawler.Services;
 
 namespace Crawler.ConsoleApplication
 {
@@ -9,13 +9,13 @@ namespace Crawler.ConsoleApplication
     {
         private readonly Printer _printer;
         private readonly CrawlerHandler _service;
-        private readonly DbHandler _dbHandler;
+        private readonly CrawlerService _crawlerService;
 
-        public ConsoleApp(Printer printer, CrawlerHandler service, DbHandler dbHandler)
+        public ConsoleApp(Printer printer, CrawlerHandler service, CrawlerService crawlerService)
         {
             _printer = printer;
             _service = service;
-            _dbHandler = dbHandler;
+            _crawlerService = crawlerService;
         }
 
         public async void Interract()
@@ -50,7 +50,7 @@ namespace Crawler.ConsoleApplication
 
                 Console.WriteLine("\nSaving to database\n");
 
-                await _dbHandler.SaveResultAsync(url, crawlingResults, timeOfResponseResults);
+                await _crawlerService.SaveResultAsync(url, crawlingResults, timeOfResponseResults);
             }
             catch (ArgumentException err)
             {

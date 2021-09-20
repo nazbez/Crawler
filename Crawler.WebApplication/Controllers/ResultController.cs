@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Crawler.Services;
 using Crawler.WebApplication.Services;
-using Crawler.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Crawler.WebApplication.Controllers
 {

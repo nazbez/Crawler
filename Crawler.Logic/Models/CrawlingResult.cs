@@ -1,4 +1,5 @@
-﻿namespace Crawler.Logic.Models
+﻿
+namespace Crawler.Logic.Models
 {
     public class CrawlingResult
     {

@@ -1,28 +1,28 @@
-﻿using Xunit;
-using Moq;
-using Crawler.Logic.Models;
+﻿using Crawler.Logic.Models;
 using Crawler.Logic.Parsers;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Xunit;
 
 namespace Crawler.Logic.Tests
 {
-    public class CrawlerServiceTests
+    public class CrawlerHandlerTests
     {
         private readonly Mock<HtmlCrawler> _mockHtmlCrawler;
         private readonly Mock<SitemapCrawler> _mockSitemapCrawler;
         private readonly Mock<Timer> _mockTimer;
         private readonly Mock<Validator> _mockValidator;
-        private readonly CrawlerHandler _service;
+        private readonly CrawlerHandler _handler;
 
-        public CrawlerServiceTests()
+        public CrawlerHandlerTests()
         {
             _mockHtmlCrawler = new Mock<HtmlCrawler>(new ParserHtml(), new Downloader());
             _mockSitemapCrawler = new Mock<SitemapCrawler>(new ParserSitemap(), new Downloader());
             _mockTimer = new Mock<Timer>();
             _mockValidator = new Mock<Validator>();
-            _service = new CrawlerHandler(_mockHtmlCrawler.Object, _mockSitemapCrawler.Object, _mockValidator.Object, _mockTimer.Object);
+            _handler = new CrawlerHandler(_mockHtmlCrawler.Object, _mockSitemapCrawler.Object, _mockValidator.Object, _mockTimer.Object);
         }
 
         [Fact]
@@ -32,7 +32,7 @@ namespace Crawler.Logic.Tests
             _mockValidator.Setup(x => x.IsValid(It.IsAny<string>())).Returns("Invalid input!");
 
             // Act
-            var exception = Assert.Throws(new ArgumentException().GetType(), () => _service.GetLinksFromHtmlAndSitemap("Test"));
+            var exception = Assert.Throws(new ArgumentException().GetType(), () => _handler.GetLinksFromHtmlAndSitemap("Test"));
 
             // Assert
             Assert.Equal("Invalid input!", exception.Message);
@@ -47,7 +47,7 @@ namespace Crawler.Logic.Tests
             _mockSitemapCrawler.Setup(x => x.GetUrls(It.IsAny<string>())).Returns(new List<string> { "https://someurl", "https://someurl/1" });
 
             // Act
-            var result = _service.GetLinksFromHtmlAndSitemap("https://someurl");
+            var result = _handler.GetLinksFromHtmlAndSitemap("https://someurl");
 
             // Assert
             Assert.Equal(new List<CrawlingResult>
@@ -66,7 +66,7 @@ namespace Crawler.Logic.Tests
             _mockSitemapCrawler.Setup(x => x.GetUrls(It.IsAny<string>())).Returns(new List<string> { "https://someurl" });
 
             // Act
-            var result = _service.GetLinksFromHtmlAndSitemap("https://someurl");
+            var result = _handler.GetLinksFromHtmlAndSitemap("https://someurl");
 
             // Assert
             Assert.Equal(result.Distinct(), result);
@@ -81,7 +81,7 @@ namespace Crawler.Logic.Tests
             var links = new List<CrawlingResult> { new CrawlingResult { Url = "https://someurl", IsInHtml = true, IsInSitemap = false } };
 
             // Act
-            var result = _service.GetResponseTime(links);
+            var result = _handler.GetResponseTime(links);
 
             // Assert
             Assert.IsType(new TimeOfResponseResult().GetType(), result.First());

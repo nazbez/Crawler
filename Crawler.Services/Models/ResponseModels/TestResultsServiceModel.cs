@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Crawler.DbModels;
+﻿using Crawler.DbModels;
+using System.Collections.Generic;
 
 namespace Crawler.Services.Models.ResponseModels
 {

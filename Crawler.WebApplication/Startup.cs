@@ -1,13 +1,13 @@
+using Crawler.Logic.Extensions;
+using Crawler.Persistence;
+using Crawler.Services.Extensions;
+using Crawler.WebApplication.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Crawler.Logic.Extensions;
-using Crawler.Persistence;
-using Microsoft.EntityFrameworkCore;
-using Crawler.WebApplication.Extensions;
-using Crawler.Services.Extensions;
 
 namespace Crawler.WebApplication
 {

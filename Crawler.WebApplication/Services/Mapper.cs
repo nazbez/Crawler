@@ -1,7 +1,7 @@
 ﻿using Crawler.Services.Models.ResponseModels;
 using Crawler.WebApplication.Models;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Crawler.WebApplication.Services
 {

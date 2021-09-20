@@ -1,4 +1,5 @@
-﻿namespace Crawler.DbModels
+﻿
+namespace Crawler.DbModels
 {
     public class TestResult
     {

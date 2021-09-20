@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Crawler.Logic.Parsers;
+﻿using Crawler.Logic.Parsers;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Crawler.Logic.Extensions
 {

@@ -1,15 +1,15 @@
+using Crawler.Logic.Extensions;
+using Crawler.Persistence;
+using Crawler.Services.Extensions;
+using Crawler.WebAPI.Middleware;
+using Crawler.WebAPI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Crawler.Services.Extensions;
-using Crawler.Logic.Extensions;
-using Crawler.Persistence;
-using Microsoft.EntityFrameworkCore;
-using Crawler.WebAPI.Services;
-using Crawler.WebAPI.Middleware;
 
 namespace Crawler.WebAPI
 {

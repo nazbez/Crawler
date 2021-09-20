@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Crawler.Logic.Models;
+using System;
 using System.Diagnostics;
 using System.Net;
-using Crawler.Logic.Models;
 
 namespace Crawler.Logic
 {

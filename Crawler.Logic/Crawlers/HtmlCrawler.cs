@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Crawler.Logic.Parsers;
+using System.Collections.Generic;
 using System.Linq;
-using Crawler.Logic.Parsers;
 
 namespace Crawler.Logic
 {
