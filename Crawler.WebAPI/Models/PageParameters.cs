@@ -4,13 +4,14 @@ namespace Crawler.WebAPI.Models
 {
     public class PageParameters
     {
-		const int maxPageSize = 100;
-		[Range(1, int.MaxValue)]
-		public int PageNumber { get; set; } = 1;
+	    private const int MaxPageSize = 100;
 
 		private int pageSize = 10;
 
-		[Range(1, maxPageSize)]
+		[Range(1, int.MaxValue)]
+		public int PageNumber { get; set; } = 1;
+
+		[Range(1, MaxPageSize)]
 		public int PageSize
 		{
 			get
@@ -19,7 +20,7 @@ namespace Crawler.WebAPI.Models
 			}
 			set
 			{
-				pageSize = (value > maxPageSize) ? maxPageSize : value;
+				pageSize = (value > MaxPageSize) ? MaxPageSize : value;
 			}
 		}
 	}
