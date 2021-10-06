@@ -1,18 +1,18 @@
 ﻿using Crawler.Logic.Models;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Crawler.Logic
 {
-    public class CrawlerService
+    public class CrawlerHandler
     {
         private readonly HtmlCrawler _htmlCrawler;
         private readonly SitemapCrawler _sitemapCrawler;
         private readonly Validator _validator;
         private readonly Timer _timer;
 
-        public CrawlerService(HtmlCrawler htmlCrawler, SitemapCrawler sitemapCrawler, Validator validator, Timer timer)
+        public CrawlerHandler(HtmlCrawler htmlCrawler, SitemapCrawler sitemapCrawler, Validator validator, Timer timer)
         {
             _htmlCrawler = htmlCrawler;
             _sitemapCrawler = sitemapCrawler;
@@ -33,7 +33,7 @@ namespace Crawler.Logic
 
             var linksFromSitemap = _sitemapCrawler.GetUrls(url + "/sitemap.xml");
 
-            var result = new List<CrawlingResult> { };
+            var result = new List<CrawlingResult>();
 
             foreach (var item in linksFromHtml.Union(linksFromSitemap))
             {

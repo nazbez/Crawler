@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Xml;
 using System.Linq;
+using System.Xml;
 
 namespace Crawler.Logic.Parsers
 {
@@ -10,8 +10,6 @@ namespace Crawler.Logic.Parsers
         Sitemap,
         Url
     }
-
-
 
     public class ParserSitemap
     { 
@@ -32,7 +30,7 @@ namespace Crawler.Logic.Parsers
 
             string foundTag = tag == Tag.Sitemap ? "sitemap" : "url";
 
-            List<string> result = new List<string> { };
+            List<string> result = new List<string>();
             var xmlSitemapList = document.GetElementsByTagName(foundTag);
             foreach (XmlNode node in xmlSitemapList)
             {

@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Crawler.Logic.Parsers;
+using System.Collections.Generic;
 using System.Linq;
-using Crawler.Logic.Parsers;
 
 namespace Crawler.Logic
 {
@@ -17,7 +17,7 @@ namespace Crawler.Logic
 
 		public virtual IEnumerable<string> GetUrls(string url)
 		{
-			List<string> listOfUrls = new List<string> { };
+			List<string> listOfUrls = new List<string>();
 
 			string document = _downloader.Download(url);
 

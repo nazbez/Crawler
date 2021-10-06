@@ -1,6 +1,6 @@
-﻿using Xunit;
+﻿using Crawler.Logic.Parsers;
 using System.Collections.Generic;
-using Crawler.Logic.Parsers;
+using Xunit;
 
 namespace Crawler.Logic.Tests
 {

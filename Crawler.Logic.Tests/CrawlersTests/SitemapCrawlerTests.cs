@@ -1,8 +1,8 @@
-﻿using Xunit;
+﻿using Crawler.Logic.Parsers;
 using Moq;
-using System.Collections.Generic;
-using Crawler.Logic.Parsers;
 using System;
+using System.Collections.Generic;
+using Xunit;
 
 namespace Crawler.Logic.Tests
 {

@@ -1,0 +1,13 @@
+﻿@model Crawler.WebApplication.Models.UserInputModel
+
+<div style="margin-bottom:20px">
+    <form method="post" asp-action="Index" asp-controller="Home">
+        <div class="form-group">
+            <input type="text" name="Url" class="form-control" id="urlInput" placeholder="Enter the url adress" required>
+            <span asp-validation-for="Url"></span>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-dark" asp-action="Index">Crawl</button>
+        </div>
+    </form>
+</div>

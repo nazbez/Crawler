@@ -1,0 +1,55 @@
+﻿@model TestResultsViewModel
+@{
+    int i = 1;
+    ViewData["Title"] = "Test results";
+}
+
+<div class="text-center">
+
+    <div>
+        <h2 style="margin-bottom:20px">@Model.Url</h2>
+        <div>
+            <form method="get" asp-action="Index" asp-controller="Home">
+                <button type="submit" class="btn btn-dark" asp-action="Index" asp-controller="Home">Back to tests</button>
+            </form>
+        </div>
+    </div>
+
+
+    <div class="row mt-5 table-responsive d-flex">
+        <h3 style="text-align:left">Response time testing</h3>
+        <table class="table table-bordered" id="testResults">
+            <thead>
+                <tr>
+                    <th scope="col">№</th>
+                    <th scope="col">Url</th>
+                    <th scope="col">Response time</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var obj in Model.TestResults)
+                {
+                    <tr>
+                        <th scope="row">@(i++)</th>
+                        <td>@obj.Url</td>
+                        <td>@obj.ResponseTime</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row mt-5 table-responsive d-flex">
+        <h3 style="text-align:left">Links found only by HTML crawler</h3>
+        <table id="onlyInHtml" class="table table-bordered">
+            @await Html.PartialAsync("_Table", Model.TestResults.Where(x => x.InHtml && !x.InSitemap).Select(x => x.Url))
+        </table>
+    </div>
+
+    <div class="row mt-5 table-responsive d-flex">
+        <h3 style="text-align:left">Links found only by Sitemap crawler</h3>
+        <table id="onlyInSitemap" class="table table-bordered">
+            @await Html.PartialAsync("_Table", Model.TestResults.Where(x => !x.InHtml && x.InSitemap).Select(x => x.Url))
+        </table>
+    </div>
+</div>

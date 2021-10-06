@@ -1,7 +1,7 @@
 ﻿using ConsoleTables;
 using Crawler.Logic.Models;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 
 
 namespace Crawler.ConsoleApplication
@@ -47,13 +47,15 @@ namespace Crawler.ConsoleApplication
         {
             Console.WriteLine("\nAll links with their time of response\n");
 
-            ConsoleTable table = new ConsoleTable("Number", "Url", "Time");
+            ConsoleTable table = new("Number", "Url", "Time");
 
             int count = 1;
 
             foreach (var item in result)
             {
-                if (item.Time == -1)
+                var isErrorInResponse = item.Time == -1;
+
+                if (isErrorInResponse)
                 {
                     table.AddRow($"{count++}", $"{item.Url}", $"{item.ErrorMsg}");
 
@@ -63,7 +65,9 @@ namespace Crawler.ConsoleApplication
                 table.AddRow($"{count++}", $"{item.Url}", $"{item.Time}");
             }
 
-            if (count == 1)
+            var isTableEmpty = count == 1;
+
+            if (isTableEmpty)
             {
                 table.AddRow("None", "None", "None");
             }

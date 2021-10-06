@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Crawler.Logic.Parsers;
+using System.Collections.Generic;
 using System.Linq;
-using Crawler.Logic.Parsers;
 
 namespace Crawler.Logic
 {
@@ -16,10 +16,10 @@ namespace Crawler.Logic
         }
 		public virtual IEnumerable<string> GetUrls(string adress)
 		{
-			List<string> result = new List<string>() { };
+			List<string> result = new List<string>();
 			List<string> queueOfUrls = new List<string>() { adress };
 
-			while (queueOfUrls.Count() != 0)
+			while (queueOfUrls.Count != 0)
             {
 				string currentUrl = queueOfUrls.First();
 
@@ -32,10 +32,12 @@ namespace Crawler.Logic
 					continue;
 				}
 
-				var foundedUrls = _parser.ParseUrls(currentUrl, document)
-					                     .Where(x => !result.Contains(x) && !queueOfUrls.Contains(x));
+				var foundedUrls = _parser.ParseUrls(currentUrl, document);
 
-				queueOfUrls.AddRange(foundedUrls);
+				var newLinks = foundedUrls
+					           .Where(url => !result.Contains(url) && !queueOfUrls.Contains(url));
+
+				queueOfUrls.AddRange(newLinks);
 
 				queueOfUrls.RemoveAt(0);
 
